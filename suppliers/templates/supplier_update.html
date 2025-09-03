@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Editar {{ object.name }} - SGE
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 p-6">
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -left-40 w-80 h-80 bg-orange-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+    <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+  </div>
+
+  <div class="relative z-10 max-w-2xl mx-auto">
+    <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-6 mb-8">
+      <div class="flex items-center space-x-4">
+        <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white">Editar Fornecedor</h1>
+          <p class="text-orange-400">{{ object.name }} • #{{ object.id }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-8">
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+        <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+          <h3 class="text-red-300 font-semibold mb-2">Erro no formulário</h3>
+          <ul class="text-red-300 text-sm space-y-1">
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <div class="space-y-6">
+          {% for field in form %}
+          <div class="space-y-2">
+            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300">
+              {{ field.label }}
+              {% if field.field.required %}
+                <span class="text-red-400">*</span>
+              {% endif %}
+            </label>
+            
+            {% if field.name == 'description' %}
+              <textarea 
+                name="{{ field.name }}" 
+                id="{{ field.id_for_label }}"
+                placeholder="Digite a descrição do fornecedor..."
+                class="w-full pl-4 pr-4 py-3 bg-gray-700/50 border {% if field.errors %}border-red-500{% else %}border-gray-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70 resize-vertical min-h-[120px]"
+                {% if field.field.required %}required{% endif %}
+              >{{ field.value|default:'' }}</textarea>
+            {% else %}
+              <input 
+                type="text" 
+                name="{{ field.name }}" 
+                id="{{ field.id_for_label }}"
+                placeholder="Digite o nome do fornecedor..."
+                value="{{ field.value|default:'' }}"
+                class="w-full pl-4 pr-4 py-3 bg-gray-700/50 border {% if field.errors %}border-red-500{% else %}border-gray-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70"
+                {% if field.field.required %}required{% endif %}
+              >
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-700/50">
+          <button 
+            type="submit" 
+            class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg hover:shadow-xl">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Salvar Alterações
+          </button>
+          
+          <a href="{% url 'supplier_detail' object.id %}" 
+             class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gray-600/50 hover:bg-gray-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-gray-500/30">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            Cancelar
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.1; }
+  }
+  .animate-pulse {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>
+{% endblock %}

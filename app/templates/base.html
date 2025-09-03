@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SGE - Sistema de Gestão de Estoque{% endblock %}</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out',
+            'slide-in-left': 'slideInLeft 0.5s ease-out',
+            'slide-in-right': 'slideInRight 0.5s ease-out',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            slideInLeft: {
+              '0%': { opacity: '0', transform: 'translateX(-20px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' }
+            },
+            slideInRight: {
+              '0%': { opacity: '0', transform: 'translateX(20px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 flex flex-col">
+  
+  <!-- Background decoration -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse-slow"></div>
+    <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse-slow"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-5 animate-pulse-slow"></div>
+  </div>
+
+  <!-- Header -->
+  {% include 'components/_header.html' %}
+
+  <!-- Main Layout -->
+  <div class="flex relative z-10 flex-1">
+    <!-- Sidebar -->
+    {% if user.is_authenticated %}
+      {% include 'components/_sidebar.html' %}
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="flex-1 {% if user.is_authenticated %}ml-0 lg:ml-64{% endif %} transition-all duration-300">
+      <div class="p-4 lg:p-8 min-h-full">
+        <div class="max-w-7xl mx-auto">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  {% include 'components/_footer.html' %}
+</body>
+
+</html>

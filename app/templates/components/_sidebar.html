@@ -1,0 +1,156 @@
+<!-- Mobile menu button -->
+<button 
+  id="mobile-menu-button" 
+  class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800/80 backdrop-blur-sm border border-gray-600 rounded-lg text-white hover:bg-gray-700/80 transition-all duration-200"
+  onclick="toggleSidebar()"
+>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+</button>
+
+<!-- Overlay for mobile -->
+<div 
+  id="sidebar-overlay" 
+  class="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden"
+  onclick="toggleSidebar()"
+></div>
+
+<!-- Sidebar -->
+<aside 
+  id="sidebar" 
+  class="fixed left-0 top-0 h-full w-64 bg-gray-800/60 backdrop-blur-xl border-r border-gray-700/50 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out animate-slide-in-left"
+>
+  <!-- Logo/Brand -->
+  <div class="flex items-center justify-center p-6 border-b border-gray-700/50">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+        </svg>
+      </div>
+      <span class="text-white font-bold text-lg">SGE</span>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="flex-1 px-4 py-6 space-y-2">
+    <!-- Dashboard -->
+    <a 
+      href="{% url 'home' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if request.resolver_match.url_name == 'home' %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v4M16 5v4"></path>
+      </svg>
+      <span class="font-medium">Dashboard</span>
+    </a>
+
+    <!-- Suppliers -->
+    {% if perms.suppliers.view_supplier %}
+    <a 
+      href="{% url 'supplier_list' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if 'supplier' in request.resolver_match.url_name %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+      </svg>
+      <span class="font-medium">Fornecedores</span>
+    </a>
+    {% endif %}
+
+    <!-- Brands -->
+    {% if perms.brands.view_brand %}
+    <a 
+      href="{% url 'brand_list' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if 'brand' in request.resolver_match.url_name %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+      </svg>
+      <span class="font-medium">Marcas</span>
+    </a>
+    {% endif %}
+
+    <!-- Categories -->
+    {% if perms.categories.view_category %}
+    <a 
+      href="{% url 'category_list' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if 'category' in request.resolver_match.url_name %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+      </svg>
+      <span class="font-medium">Categorias</span>
+    </a>
+    {% endif %}
+
+    <!-- Products -->
+    {% if perms.products.view_product %}
+    <a 
+      href="{% url 'product_list' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if 'product' in request.resolver_match.url_name %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+      </svg>
+      <span class="font-medium">Produtos</span>
+    </a>
+    {% endif %}
+
+    <!-- Inflows -->
+    {% if perms.inflows.view_inflow %}
+    <a 
+      href="{% url 'inflow_list' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if 'inflow' in request.resolver_match.url_name %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+      </svg>
+      <span class="font-medium">Entradas</span>
+    </a>
+    {% endif %}
+
+    <!-- Outflows -->
+    {% if perms.outflows.view_outflow %}
+    <a 
+      href="{% url 'outflow_list' %}" 
+      class="flex items-center space-x-3 px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200 group {% if 'outflow' in request.resolver_match.url_name %}bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30{% endif %}"
+    >
+      <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+      </svg>
+      <span class="font-medium">Saídas</span>
+    </a>
+    {% endif %}
+  </nav>
+
+  <!-- Bottom Section - Logout -->
+  {% if user.is_authenticated %}
+  <div class="p-4 border-t border-gray-700/50">
+    <form action="{% url 'logout' %}" method="post" id="logout-form">
+      {% csrf_token %}
+      <button 
+        type="submit" 
+        class="flex items-center space-x-3 w-full px-3 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-red-500/20 transition-all duration-200 group"
+      >
+        <svg class="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
+        <span class="font-medium">Sair</span>
+      </button>
+    </form>
+  </div>
+  {% endif %}
+</aside>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    sidebar.classList.toggle('-translate-x-full');
+    overlay.classList.toggle('hidden');
+  }
+</script>

@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cadastrar Nova Marca - SGE
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 p-6">
+  
+  <!-- Background decoration -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+    <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+  </div>
+
+  <div class="relative z-10 max-w-2xl mx-auto">
+    
+    <!-- Header Section -->
+    <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-6 mb-8">
+      <div class="flex items-center space-x-4">
+        <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white">Cadastrar Nova Marca</h1>
+          <p class="text-gray-400">Adicione uma nova marca ao sistema</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-8">
+      
+      <!-- Form Header -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold text-white mb-2 flex items-center">
+          <svg class="w-6 h-6 mr-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Informações da Marca
+        </h2>
+        <p class="text-gray-400 text-sm">Preencha os campos abaixo para cadastrar uma nova marca</p>
+      </div>
+
+      <!-- Form -->
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Error Messages -->
+        {% if form.errors %}
+        <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+          <div class="flex items-center mb-3">
+            <svg class="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-red-300 font-semibold">Erro no formulário</h3>
+          </div>
+          <ul class="text-red-300 text-sm space-y-1 ml-7">
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <!-- Form Fields -->
+        <div class="space-y-6">
+          {% for field in form %}
+          <div class="space-y-2">
+            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300">
+              {{ field.label }}
+              {% if field.field.required %}
+                <span class="text-red-400">*</span>
+              {% endif %}
+            </label>
+            
+            <div class="relative">
+              {% if field.name == 'name' %}
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
+                </div>
+              {% elif field.name == 'description' %}
+                <div class="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
+                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                  </svg>
+                </div>
+              {% endif %}
+              
+              {% if field.name == 'description' %}
+                <textarea 
+                  name="{{ field.name }}" 
+                  id="{{ field.id_for_label }}"
+                  placeholder="{{ field.help_text|default:'Digite a descrição da marca...' }}"
+                  class="w-full {% if field.name == 'description' %}pl-10{% else %}{% if field.name == 'name' %}pl-10{% else %}pl-4{% endif %}{% endif %} pr-4 py-3 bg-gray-700/50 border {% if field.errors %}border-red-500{% else %}border-gray-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70 resize-vertical min-h-[120px]"
+                  {% if field.field.required %}required{% endif %}
+                >{{ field.value|default:'' }}</textarea>
+              {% else %}
+                <input 
+                  type="text" 
+                  name="{{ field.name }}" 
+                  id="{{ field.id_for_label }}"
+                  placeholder="{% if field.name == 'name' %}Digite o nome da marca...{% else %}{{ field.help_text|default:'' }}{% endif %}"
+                  value="{{ field.value|default:'' }}"
+                  class="w-full {% if field.name == 'name' %}pl-10{% else %}pl-4{% endif %} pr-4 py-3 bg-gray-700/50 border {% if field.errors %}border-red-500{% else %}border-gray-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70"
+                  {% if field.field.required %}required{% endif %}
+                >
+              {% endif %}
+            </div>
+            
+            {% if field.help_text and field.name != 'description' and field.name != 'name' %}
+            <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-700/50">
+          <button 
+            type="submit" 
+            class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg hover:shadow-xl">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Salvar Marca
+          </button>
+          
+          <a href="{% url 'brand_list' %}" 
+             class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gray-600/50 hover:bg-gray-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-gray-500/30">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            Cancelar
+          </a>
+        </div>
+      </form>
+
+      <!-- Help Text -->
+      <div class="mt-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div class="text-blue-300 text-sm">
+            <p class="font-semibold mb-1">Dicas para cadastro:</p>
+            <ul class="space-y-1 text-blue-300/80">
+              <li>• Utilize um nome claro e reconhecível para a marca</li>
+              <li>• A descrição deve ser informativa mas concisa</li>
+              <li>• Campos marcados com * são obrigatórios</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.1; }
+  }
+  
+  .animate-pulse {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>
+{% endblock %}

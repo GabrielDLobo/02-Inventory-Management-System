@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}
+SGE - Nova Saída
+{% endblock %}
+
+{% block content %}
+
+<!-- Header Section -->
+<div class="mb-8 animate-fade-in">
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center space-x-4">
+      <!-- Back Button -->
+      <a href="{% url 'outflow_list' %}" 
+         class="inline-flex items-center justify-center w-10 h-10 bg-gray-700/50 hover:bg-gray-600/50 text-gray-400 hover:text-white rounded-lg transition-all duration-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </a>
+      
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-rose-500 to-red-600 rounded-xl shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white">Nova Saída</h1>
+          <p class="text-gray-400">Registrar saída de produtos do estoque</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Form Container -->
+<div class="max-w-4xl mx-auto">
+  <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-xl p-8 animate-slide-in-up">
+    <form method="post" class="space-y-8">
+      {% csrf_token %}
+      
+      <!-- Form Error Messages -->
+      {% if form.errors %}
+      <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+        <div class="flex items-center mb-2">
+          <svg class="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h3 class="text-red-400 font-semibold">Erro no formulário</h3>
+        </div>
+        <ul class="text-red-300 text-sm space-y-1">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- Form Section: Product Information -->
+      <div>
+        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+          <svg class="w-6 h-6 text-rose-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+          Informações da Saída
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Product Field -->
+          <div class="space-y-2">
+            <label for="{{ form.product.id_for_label }}" class="block text-sm font-medium text-gray-300">
+              {{ form.product.label }}
+              {% if form.product.field.required %}
+              <span class="text-red-400 ml-1">*</span>
+              {% endif %}
+            </label>
+            <div>
+              {{ form.product }}
+            </div>
+            {% if form.product.errors %}
+            <p class="text-red-400 text-sm mt-1">{{ form.product.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Supplier Field -->
+          <div class="space-y-2">
+            <label for="{{ form.supplier.id_for_label }}" class="block text-sm font-medium text-gray-300">
+              {{ form.supplier.label }}
+              {% if form.supplier.field.required %}
+              <span class="text-red-400 ml-1">*</span>
+              {% endif %}
+            </label>
+            <div>
+              {{ form.supplier }}
+            </div>
+            {% if form.supplier.errors %}
+            <p class="text-red-400 text-sm mt-1">{{ form.supplier.errors.0 }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Quantity Field -->
+          <div class="space-y-2">
+            <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-gray-300">
+              {{ form.quantity.label }}
+              {% if form.quantity.field.required %}
+              <span class="text-red-400 ml-1">*</span>
+              {% endif %}
+            </label>
+            <div>
+              {{ form.quantity }}
+            </div>
+            {% if form.quantity.errors %}
+            <p class="text-red-400 text-sm mt-1">{{ form.quantity.errors.0 }}</p>
+            {% endif %}
+            <p class="text-gray-500 text-xs">Quantidade de produtos que será removida do estoque</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Section: Additional Information -->
+      {% if form.description %}
+      <div>
+        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+          <svg class="w-6 h-6 text-rose-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Informações Adicionais
+        </h2>
+        
+        <div class="space-y-2">
+          <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-300">
+            {{ form.description.label }}
+            {% if form.description.field.required %}
+            <span class="text-red-400 ml-1">*</span>
+            {% endif %}
+          </label>
+          {{ form.description }}
+          {% if form.description.errors %}
+          <p class="text-red-400 text-sm mt-1">{{ form.description.errors.0 }}</p>
+          {% endif %}
+          <p class="text-gray-500 text-xs">Observações ou detalhes sobre esta saída (opcional)</p>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Form Actions -->
+      <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-700/50">
+        <button type="submit" 
+                class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Registrar Saída
+        </button>
+        
+        <a href="{% url 'outflow_list' %}" 
+           class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-4 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white font-semibold rounded-lg transition-all duration-200">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          Cancelar
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Help Section -->
+<div class="max-w-4xl mx-auto mt-8">
+  <div class="bg-gradient-to-r from-rose-500/10 to-red-500/10 border border-rose-500/30 rounded-xl p-6">
+    <div class="flex items-start space-x-3">
+      <div class="flex-shrink-0 w-8 h-8 bg-rose-500/20 rounded-lg flex items-center justify-center mt-0.5">
+        <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-rose-400 font-semibold mb-2">Atenção - Registro de Saída</h3>
+        <ul class="text-gray-300 text-sm space-y-1">
+          <li>• Verifique se há estoque suficiente do produto selecionado</li>
+          <li>• A quantidade deve ser um número positivo</li>
+          <li>• Esta ação irá reduzir automaticamente o estoque do produto</li>
+          <li>• Certifique-se de que o produto e fornecedor estão corretos</li>
+          <li>• Use as observações para documentar o motivo da saída</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Custom form styling */
+.form-control, select {
+  @apply w-full pl-10 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70;
+}
+
+textarea.form-control {
+  @apply pl-4 min-h-[100px] resize-y;
+}
+
+
+/* Focus states for better accessibility */
+.form-control:focus, select:focus {
+  @apply ring-2 ring-rose-500 border-rose-500;
+}
+</style>
+
+{% endblock %}

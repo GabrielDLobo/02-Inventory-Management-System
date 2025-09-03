@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Excluir {{ object.name }} - SGE
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 p-6">
+  
+  <!-- Background decoration -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -left-40 w-80 h-80 bg-red-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+    <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+  </div>
+
+  <div class="relative z-10 max-w-2xl mx-auto">
+    
+    <!-- Header Section -->
+    <div class="bg-gray-800/80 backdrop-blur-xl border border-red-700/50 rounded-2xl shadow-2xl p-6 mb-8">
+      <div class="flex items-center space-x-4">
+        <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white">Excluir Marca</h1>
+          <p class="text-red-400">Ação irreversível - proceda com cuidado</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Warning Card -->
+    <div class="bg-red-500/10 backdrop-blur-xl border border-red-500/30 rounded-2xl shadow-2xl p-8 mb-8">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-2xl mb-4">
+          <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-white mb-2">Confirmar Exclusão</h2>
+        <p class="text-gray-300">Esta ação não pode ser desfeita</p>
+      </div>
+
+      <!-- Brand Info -->
+      <div class="bg-gray-800/50 rounded-xl p-6 mb-8 border border-gray-700/50">
+        <div class="flex items-center space-x-4 mb-4">
+          <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex-shrink-0">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white">{{ object.name }}</h3>
+            <p class="text-blue-400 font-medium">Marca #{{ object.id }}</p>
+          </div>
+        </div>
+        
+        {% if object.description %}
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-400">Descrição</label>
+          <p class="text-gray-300 bg-gray-700/30 rounded-lg p-3 border border-gray-600/30">{{ object.description }}</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Impact Warning -->
+      <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6 mb-8">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-yellow-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <div>
+            <h3 class="text-yellow-300 font-semibold mb-2">Impacto da Exclusão</h3>
+            <ul class="text-yellow-200/80 text-sm space-y-2">
+              <li class="flex items-center">
+                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                A marca <strong>"{{ object.name }}"</strong> será permanentemente removida
+              </li>
+              <li class="flex items-center">
+                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                {% if object.product_set.exists %}
+                  <span class="text-red-300">{{ object.product_set.count }} produto{{ object.product_set.count|pluralize }} vinculado{{ object.product_set.count|pluralize }} será{{ object.product_set.count|pluralize:"á,ão" }} afetado{{ object.product_set.count|pluralize }}</span>
+                {% else %}
+                  <span>Nenhum produto será afetado</span>
+                {% endif %}
+              </li>
+              <li class="flex items-center">
+                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                Histórico de transações será preservado para auditoria
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Products Warning -->
+      {% if object.product_set.exists %}
+      <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 mb-8">
+        <div class="flex items-start">
+          <svg class="w-6 h-6 text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+          <div>
+            <h3 class="text-red-300 font-semibold mb-3">Produtos Afetados</h3>
+            <div class="space-y-2 max-h-40 overflow-y-auto">
+              {% for product in object.product_set.all|slice:":5" %}
+              <div class="bg-gray-800/30 rounded-lg p-3 border border-gray-600/30">
+                <p class="text-white font-medium">{{ product.name }}</p>
+                <p class="text-gray-400 text-sm">ID: {{ product.id }} • Preço: R$ {{ product.selling_price|floatformat:2 }}</p>
+              </div>
+              {% endfor %}
+              {% if object.product_set.count > 5 %}
+              <p class="text-red-300 text-sm italic">E mais {{ object.product_set.count|add:"-5" }} produto{{ object.product_set.count|add:"-5"|pluralize }}...</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Confirmation Text -->
+      <div class="text-center mb-8">
+        <p class="text-gray-300 text-lg mb-2">Tem certeza de que deseja excluir a marca</p>
+        <p class="text-2xl font-bold text-white">"{{ object.name }}"?</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <form method="post" class="flex-1">
+          {% csrf_token %}
+          <button 
+            type="submit" 
+            class="w-full inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg hover:shadow-xl border-2 border-red-500/30">
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+            Sim, Excluir Permanentemente
+          </button>
+        </form>
+        
+        <a href="{% url 'brand_detail' object.id %}" 
+           class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-gray-600/50 hover:bg-gray-600/70 text-white font-bold rounded-lg transition-all duration-200 border-2 border-gray-500/30">
+          <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          Cancelar e Manter
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between items-center">
+      <a href="{% url 'brand_list' %}" 
+         class="inline-flex items-center px-4 py-2 bg-gray-600/50 hover:bg-gray-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-gray-500/30">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Lista de Marcas
+      </a>
+      
+      <a href="{% url 'brand_detail' object.id %}" 
+         class="inline-flex items-center px-4 py-2 bg-gray-600/50 hover:bg-gray-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-gray-500/30">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        Ver Detalhes
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.1; }
+  }
+  
+  .animate-pulse {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>
+{% endblock %}
