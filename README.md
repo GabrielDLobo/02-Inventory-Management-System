@@ -316,34 +316,30 @@ Execute o projeto com Python
 ## Login
 ![alt text](</public/Captura de tela 2025-09-03 041708.png>)
 
-##Home
+## Home
 ![alt text](</public/Captura de tela 2025-09-03 035324.png>)
 ![alt text](</public/Captura de tela 2025-09-03 035333.png>)
 
-##Home
-![alt text](</public/Captura de tela 2025-09-03 035324-1.png>)
-![alt text](</public/Captura de tela 2025-09-03 035333-1.png>)
-
-##Fornecedores
+## Fornecedores
 ![alt text](</public/Captura de tela 2025-09-03 035519.png>)
 ![alt text](</public/Captura de tela 2025-09-03 035531.png>)
 
-##Marcas
+## Marcas
 ![alt text](</public/Captura de tela 2025-09-03 035546.png>)
 ![alt text](</public/Captura de tela 2025-09-03 035557.png>)
 
-##Categorias
+## Categorias
 ![alt text](</public/Captura de tela 2025-09-03 035614.png>)
 ![alt text](</public/Captura de tela 2025-09-03 035624.png>)
 
-##Produtos
+## Produtos
 ![alt text](</public/Captura de tela 2025-09-03 035636.png>)
 ![alt text](</public/Captura de tela 2025-09-03 035648.png>)
 
-##Entradas
+## Entradas
 ![alt text](</public/Captura de tela 2025-09-03 041227.png>)
 ![alt text](</public/Captura de tela 2025-09-03 041239.png>)
 
-##Saídas
+## Saídas
 ![alt text](</public/Captura de tela 2025-09-03 041249.png>)
 ![alt text](</public/Captura de tela 2025-09-03 041259.png>)
