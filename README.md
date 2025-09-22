@@ -1,317 +1,339 @@
-# 💻📱 Inventory Management System
+# 💻📦 Inventory Management System | Sistema de Gestão de Estoque
 
-Construção de um Sistema de Gestão de Estoque completo utilizando tecnologias de última geração: Bootstrap5 e Django Rest Framework focado em facilitar o controle de entradas, saídas e organização de produtos em ambientes comerciais.
+--- 
+
+### English Version
+A full-featured inventory management system built with Django Rest Framework and Bootstrap5. It enables secure management of products, brands, categories, suppliers, inflows and outflows using JWT authentication.
+
+### PT/BR
+Um sistema completo de gestão de estoque construído com Django Rest Framework e Bootstrap5. Permite o gerenciamento seguro de produtos, marcas, categorias, fornecedores, entradas e saídas com autenticação JWT.
+
+---
+
+## 🚀 Features | Funcionalidades
+
+- 🧾 Product, brand, category and supplier registration  
+- 📥 Inflow and outflow control  
+- 🔐 JWT authentication  
+- 📊 RESTful API documentation  
+- 🎨 Responsive interface with Bootstrap5  
+- 🤖 Optional OpenAI integration for contextual intelligence
+
+### PT/BR
+
+- 🧾 Cadastro de produtos, marcas, categorias e fornecedores  
+- 📥 Controle de entradas e saídas  
+- 🔐 Autenticação com JWT  
+- 📊 Documentação da API RESTful  
+- 🎨 Interface responsiva com Bootstrap5  
+- 🤖 Integração opcional com OpenAI para inteligência contextual
+
+---
+
+## 🧪 Tech Stack | Stacks Utilizadas
+
+| Layer         | Technologies                          |
+|---------------|----------------------------------------|
+| Front-end     | HTML5, CSS3, Bootstrap5                |
+| Back-end      | Django, Django Rest Framework, JWT     |
+| Database      | PostgreSQL                             |
+| AI (optional) | OpenAI                                 |
+
+### PT/BR
+
+| Camada        | Tecnologias                            |
+|---------------|----------------------------------------|
+| Front-end     | HTML5, CSS3, Bootstrap5                |
+| Back-end      | Django, Django Rest Framework, JWT     |
+| Banco de Dados| PostgreSQL                             |
+| IA (opcional) | OpenAI                                 |
+
+---
 
 
-## ⛏️ Instalação
+## ⛏️ Instalação | Installation
 
-Execute o projeto com Python
+
+Run the project using Python
 
 ```bash
   py manage.py runserver
 ```
     
-## 💎 Stacks utilizadas
+--- 
 
-**Front-end:** HTML5, CSS3 e Bootstrap5
+## 📋 API Reference | Documentação Geral da API
 
-**Back-end:** Django, Django Rest Framework, Simple JWT
+The API is organized into modules:
 
-**Database:** PostgreSQL
+- `/api/v1/auth/` → Authentication  
+- `/api/v1/products/` → Products  
+- `/api/v1/brands/` → Brands  
+- `/api/v1/categories/` → Categories  
+- `/api/v1/inflows/` → Inflows  
+- `/api/v1/outflows/` → Outflows  
+- `/api/v1/suppliers/` → Suppliers  
 
-**IA:** OpenAI
+Each route requires authentication and follows REST standards (`list`, `create`, `detail`, `update`, `delete`).
 
-## 📋 Documentação da API - Autenticação
+### PT/BR 
 
-#### Autenticação - Criar Um Conta (_Necessário Autenticação Usuário Administrador_)
+A API está organizada em módulos:
 
-```http
-  POST /api/v1/admin/
-```
+- `/api/v1/auth/` → Autenticação  
+- `/api/v1/products/` → Produtos  
+- `/api/v1/brands/` → Marcas  
+- `/api/v1/categories/` → Categorias  
+- `/api/v1/inflows/` → Entradas  
+- `/api/v1/outflows/` → Saídas  
+- `/api/v1/suppliers/` → Fornecedores  
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `email` | `string` | **Obrigatório** |
-| `password` | `string` | **Obrigatório** |
-| `group permission` | `FK` | **Obrigatório** |
+Cada rota exige autenticação e segue os padrões REST (`list`, `create`, `detail`, `update`, `delete`).
 
-#### Autenticação - Fazer Login
+---
 
-```http
-  POST /api/v1/auth/login
-```
+# 📋 Detailed API Documentation / Documentação detalhada da API
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `email` | `string` | **Obrigatório** |
-| `password` | `string` | **Obrigatório** |
+## 🔐 Authentication Module | Módulo de Autenticação
 
-## 📋 Documentação da API - Product 
-### 💬Criar o produto para realizar as entradas e saídas no estoque.
+### POST /api/v1/admin/ — Create Admin Account  
+Creates a new admin user. Requires authentication.  
+Cria uma conta de administrador. Requer autenticação.
 
-#### Products - Listar Produtos Cadastrados - (_Necessário Autenticação_)
+#### Request Body | Corpo da Requisição
 
-```http
-  GET /api/v1/products/list
-```
+| Parameter          | Type     | Required | Description / Descrição             |
+|--------------------|----------|----------|-------------------------------------|
+| `email`            | string   | ✅       | Admin email / Email do administrador |
+| `password`         | string   | ✅       | Admin password / Senha do administrador |
+| `group_permission` | FK       | ✅       | Permission group / Grupo de permissão |
 
-#### Products - Criar Um Produto - (_Necessário Autenticação_)
+---
 
-```http
-  POST /api/v1/products/create
-```
+### POST /api/v1/auth/login — User Login  
+Authenticates a user and returns JWT tokens.  
+Autentica o usuário e retorna tokens JWT.
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `PK` | **Obrigatório** |
-| `title` | `string` | **Obrigatório** |
-| `brand` | `FK` | **Obrigatório** |
-| `category` | `FK` | **Obrigatório** |
-| `description` | `string` |               |
-| `serie_number` | `string` | **Obrigatório** |
-| `cost_price` | `decimal` | **Obrigatório** |
-| `selling_price` | `decimal` | **Obrigatório** |
-| `quantity` | `int` | **Obrigatório** |
-| `created_at` | `datetime` | **Obrigatório e Automático** |
-| `updated_at` | `datetime` | **Obrigatório e Automático** |
+#### Request Body | Corpo da Requisição
 
-#### Products - Obter Um Produto Cadastrado - (_Necessário Autenticação_)
+| Parameter   | Type     | Required | Description / Descrição       |
+|-------------|----------|----------|-------------------------------|
+| `email`     | string   | ✅       | User email / Email do usuário |
+| `password`  | string   | ✅       | User password / Senha do usuário |
 
-```http
-  GET /api/v1/products/<int:pk>/detail/
-```
 
-#### Products - Editar Um Produto - (_Necessário Autenticação_)
+---
 
-```http
-  PUT /api/v1/products/<int:pk>/update/
-```
+## 📦 Products Module | Módulo de Produtos
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `title` | `string` | **Obrigatório** |
-| `category` | `FK` | **Obrigatório** |
-| `brand` | `FK` | **Obrigatório** |
-| `description` | `string` |                |
-| `serie_number` | `string` | **Obrigatório** |
-| `cost_price` | `decimal` | **Obrigatório** |
-| `selling_price` | `decimal` | **Obrigatório** |
+### GET /api/v1/products/list — List Products  
+Returns all registered products.  
+Retorna todos os produtos cadastrados.
 
-#### Products - Deletar Um Produto - (_Necessário Autenticação_)
+---
 
-```http
-  DELETE /api/v1/products/<int:pk>/delete/
-```
+### POST /api/v1/products/create — Create Product  
+Creates a new product in the inventory.  
+Cria um novo produto no estoque.
 
-## 📋 Documentação da API - Brands
-### 💬Criar a marca para cadastrar um novo produto.
+#### Request Body | Corpo da Requisição
 
-#### Brands - Listar Marcas Cadastradas - (_Necessário Autenticação_)
+| Parameter       | Type     | Required | Description / Descrição         |
+|-----------------|----------|----------|---------------------------------|
+| `title`         | string   | ✅       | Product name / Nome do produto  |
+| `brand`         | FK       | ✅       | Brand reference / Marca         |
+| `category`      | FK       | ✅       | Category reference / Categoria  |
+| `description`   | string   | ❌       | Description / Descrição         |
+| `serie_number`  | string   | ✅       | Serial number / Nº de série     |
+| `cost_price`    | decimal  | ✅       | Cost price / Preço de custo     |
+| `selling_price` | decimal  | ✅       | Selling price / Preço de venda  |
+| `quantity`      | int      | ✅       | Stock quantity / Quantidade     |
 
-```http
-  GET /api/v1/brands/list/
-```
+---
 
-#### Brands - Criar Uma Marca - (_Necessário Autenticação_)
+### GET /api/v1/products/<int:pk>/detail — Get Product  
+Returns details of a specific product.  
+Obtém os detalhes de um produto específico.
 
-```http
-  POST /api/v1/brands/create/
-```
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `PK` | **Obrigatório e Automático** |
-| `name` | `string` | **Obrigatório** |
-| `description` | `string` |       |
-| `created_at` | `datetime` | **Obrigatório e Automático** |
-| `updated_at` | `datetime` | **Obrigatório e Automático** |
+---
 
-#### Brands - Obter Uma Marca Cadastrada - (_Necessário Autenticação_)
+### PUT /api/v1/products/<int:pk>/update — Update Product  
+Updates product information.  
+Atualiza as informações de um produto.
 
-```http
-  GET /api/v1/brands/<int:pk>/detail/
-```
+---
 
-#### Brands - Editar Uma Marca - (_Necessário Autenticação_)
+### DELETE /api/v1/products/<int:pk>/delete — Delete Product  
+Deletes a product if no dependencies exist.  
+Deleta um produto, se não houver dependências.
 
-```http
-  PUT /api/v1/brands/<int:pk>/update/
-```
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `name` | `string` | **Obrigatório** |
-| `description` | `string` |  
+---
 
-#### Brands - Deletar Uma Marca - (_Necessário Autenticação_)
+## 🏷️ Brands Module | Módulo de Marcas
 
-```http
-  DELETE /api/v1/brands/<int:pk>/delete/
-```
+### GET /api/v1/brands/list — List Brands  
+Returns all registered brands.  
+Retorna todas as marcas cadastradas.
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `number` | **Obrigatório**. Caso não tenha nenhum produto relacionado ao ID |
+---
 
-## 📋 Documentação da API - Categories 
-### 💬Criar a categoria para cadastrar um novo produto.
+### POST /api/v1/brands/create — Create Brand  
+Registers a new brand.  
+Cadastra uma nova marca.
 
-#### Categories - Listar Categorias Cadastradas - (_Necessário Autenticação_)
+| Parameter     | Type     | Required | Description / Descrição     |
+|---------------|----------|----------|-----------------------------|
+| `name`        | string   | ✅       | Brand name / Nome da marca |
+| `description` | string   | ❌       | Description / Descrição     |
 
-```http
-  GET /api/v1/categories/list/
-```
+---
 
-#### Categories - Criar Uma Categoria - (_Necessário Autenticação_)
+### GET /api/v1/brands/<int:pk>/detail — Get Brand  
+Returns brand details.  
+Obtém os detalhes de uma marca.
 
-```http
-  POST /api/v1/categories/create/
-```
+---
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `PK` | **Obrigatório e Automático** |
-| `name` | `string` | **Obrigatório** |
-| `description` | `string` |       |
-| `created_at` | `datetime` | **Obrigatório e Automático** |
-| `updated_at` | `datetime` | **Obrigatório e Automático** |
+### PUT /api/v1/brands/<int:pk>/update — Update Brand  
+Updates brand data.  
+Atualiza os dados de uma marca.
 
-#### Categories - Obter Uma Categoria Cadastrada - (_Necessário Autenticação_)
+---
 
-```http
-  GET /api/v1/categories/<int:pk>/detail/
-```
+### DELETE /api/v1/brands/<int:pk>/delete — Delete Brand  
+Deletes a brand if no products are linked.  
+Deleta uma marca, se não houver produtos vinculados.
 
-#### Categories - Editar Uma Categoria - (_Necessário Autenticação_)
+---
 
-```http
-  PUT /api/v1/categories/<int:pk>/update/
-```
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `name` | `string` | **Obrigatório** |
-| `description` | `string` |  
+## 🗂️ Categories Module | Módulo de Categorias
 
-#### Categories - Deletar Uma Categoria - (_Necessário Autenticação_)
+### GET /api/v1/categories/list — List Categories  
+Returns all registered categories.  
+Retorna todas as categorias cadastradas.
 
-```http
-  DELETE /api/v1/categories/<int:pk>/delete/
-```
+---
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `number` | **Obrigatório**. Caso não tenha nenhum produto relacionado ao ID |
+### POST /api/v1/categories/create — Create Category  
+Registers a new category.  
+Cadastra uma nova categoria.
 
-## 📋 Documentação da API - Inflows - Entradas de Produtos
+| Parameter     | Type     | Required | Description / Descrição     |
+|---------------|----------|----------|-----------------------------|
+| `name`        | string   | ✅       | Category name / Nome da categoria |
+| `description` | string   | ❌       | Description / Descrição     |
 
-#### Inflows - Listar Entradas Cadastradas - (_Necessário Autenticação_)
+---
 
-```http
-  GET /api/v1/inflows/list/
-```
+### GET /api/v1/categories/<int:pk>/detail — Get Category  
+Returns category details.  
+Obtém os detalhes de uma categoria.
 
-#### Inflows - Criar Uma Entrada - (_Necessário Autenticação_)
+---
 
-```http
-  POST /api/v1/inflows/create/
-```
+### PUT /api/v1/categories/<int:pk>/update — Update Category  
+Updates category data.  
+Atualiza os dados de uma categoria.
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `PK` | **Obrigatório e Automático** |
-| `supplier` | `FK` | **Obrigatório e Automático** |
-| `product` | `FK` | **Obrigatório** |
-| `quantity` | `int` | **Obrigatório** |
-| `description` | `string` |       |
-| `created_at` | `datetime` | **Obrigatório e Automático** |
-| `updated_at` | `datetime` | **Obrigatório e Automático** |
+---
 
-#### Inflows - Obter Uma Entrada Cadastrada - (_Necessário Autenticação_)
+### DELETE /api/v1/categories/<int:pk>/delete — Delete Category  
+Deletes a category if no products are linked.  
+Deleta uma categoria, se não houver produtos vinculados.
 
-```http
-  GET /api/v1/inflows/<int:pk>/detail/
-```
+---
 
-## 📋 Documentação da API - Suppliers 
-### 💬Criar o fornecedor para cadastrar uma nova entrada de um produto/Inflow.
+## 📥 Inflows Module | Módulo de Entradas
 
-#### Suppliers - Listar Fornecedores Cadastrados - (_Necessário Autenticação_)
+### GET /api/v1/inflows/list — List Inflows  
+Returns all registered inflows.  
+Retorna todas as entradas cadastradas.
 
-```http
-  GET /api/v1/suppliers/list/
-```
+---
 
-#### Suppliers - Criar Um Fornecedor - (_Necessário Autenticação_)
+### POST /api/v1/inflows/create — Create Inflow  
+Registers a new product inflow.  
+Cadastra uma nova entrada de produto.
 
-```http
-  POST /api/v1/suppliers/create/
-```
+| Parameter     | Type     | Required | Description / Descrição     |
+|---------------|----------|----------|-----------------------------|
+| `supplier`    | FK       | ✅       | Supplier / Fornecedor       |
+| `product`     | FK       | ✅       | Product / Produto           |
+| `quantity`    | int      | ✅       | Quantity / Quantidade       |
+| `description` | string   | ❌       | Description / Descrição     |
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `PK` | **Obrigatório e Automático** |
-| `name` | `string` | **Obrigatório** |
-| `description` | `string` |       |
-| `created_at` | `datetime` | **Obrigatório e Automático** |
-| `updated_at` | `datetime` | **Obrigatório e Automático** |
+---
 
-#### Suppliers - Obter Um Fornecedor Cadastrado - (_Necessário Autenticação_)
+### GET /api/v1/inflows/<int:pk>/detail — Get Inflow  
+Returns inflow details.  
+Obtém os detalhes de uma entrada.
 
-```http
-  GET /api/v1/suppliers/<int:pk>/detail/
-```
+---
 
-#### Suppliers - Editar Um Fornecedor - (_Necessário Autenticação_)
+## 🚚 Suppliers Module | Módulo de Fornecedores
 
-```http
-  PUT /api/v1/suppliers/<int:pk>/update/
-```
+### GET /api/v1/suppliers/list — List Suppliers  
+Returns all registered suppliers.  
+Retorna todos os fornecedores cadastrados.
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `name` | `string` | **Obrigatório** |
-| `description` | `string` |  
+---
 
-#### Suppliers - Deletar Um Fornecedor - (_Necessário Autenticação_)
+### POST /api/v1/suppliers/create — Create Supplier  
+Registers a new supplier.  
+Cadastra um novo fornecedor.
 
-```http
-  DELETE /api/v1/suppliers/<int:pk>/delete/
-```
+| Parameter     | Type     | Required | Description / Descrição     |
+|---------------|----------|----------|-----------------------------|
+| `name`        | string   | ✅       | Supplier name / Nome        |
+| `description` | string   | ❌       | Description / Descrição     |
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `number` | **Obrigatório**. Caso não tenha nenhuma entrada/inflow relacionada ao ID |
+---
 
+### GET /api/v1/suppliers/<int:pk>/detail — Get Supplier  
+Returns supplier details.  
+Obtém os detalhes de um fornecedor.
 
-## 📋 Documentação da API - Outflows - Saídas de Produtos
+---
 
-#### Outflows - Listar Saídas Cadastradas - (_Necessário Autenticação_)
+### PUT /api/v1/suppliers/<int:pk>/update — Update Supplier  
+Updates supplier data.  
+Atualiza os dados de um fornecedor.
 
-```http
-  GET /api/v1/outflows/list/
-```
+---
 
-#### Outflows - Criar Uma Saída - (_Necessário Autenticação_)
+### DELETE /api/v1/suppliers/<int:pk>/delete — Delete Supplier  
+Deletes a supplier if no inflows are linked.  
+Deleta um fornecedor, se não houver entradas vinculadas.
 
-```http
-  POST /api/v1/outflows/create/
-```
+---
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `PK` | **Obrigatório e Automático** |
-| `product` | `FK` | **Obrigatório** |
-| `quantity` | `int` | **Obrigatório** |
-| `description` | `string` |       |
-| `created_at` | `datetime` | **Obrigatório e Automático** |
-| `updated_at` | `datetime` | **Obrigatório e Automático** |
+## 📤 Outflows Module | Módulo de Saídas
 
-#### Outflows - Obter Uma Saída Cadastrada - (_Necessário Autenticação_)
+### GET /api/v1/outflows/list — List Outflows  
+Returns all registered outflows.  
+Retorna todas as saídas cadastradas.
 
-```http
-  GET /api/v1/outflows/<int:pk>/detail/
-```
+---
 
+### POST /api/v1/outflows/create — Create Outflow  
+Registers a new product outflow.  
+Cadastra uma nova saída de produto.
 
-#Imagens do Projeto
+| Parameter     | Type     | Required | Description / Descrição     |
+|---------------|----------|----------|-----------------------------|
+| `product`     | FK       | ✅       | Product / Produto           |
+| `quantity`    | int      | ✅       | Quantity / Quantidade       |
+| `description` | string   | ❌       | Description / Descrição     |
+
+---
+
+### GET /api/v1/outflows/<int:pk>/detail — Get Outflow  
+Returns outflow details.  
+Obtém os detalhes de uma saída.
+
+---
+
+# 🖼️ Imagens do Projeto
 
 ## Login
 ![alt text](</public/Captura de tela 2025-09-03 041708.png>)
