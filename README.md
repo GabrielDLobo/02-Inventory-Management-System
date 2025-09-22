@@ -3,10 +3,10 @@
 --- 
 
 ### English Version
-A full-featured inventory management system built with Django Rest Framework and Bootstrap5. It enables secure management of products, brands, categories, suppliers, inflows and outflows using JWT authentication.
+A full-featured inventory management system built with Django Rest Framework and TailwindCSS. It enables secure management of products, brands, categories, suppliers, inflows and outflows using JWT authentication.
 
 ### PT/BR
-Um sistema completo de gestão de estoque construído com Django Rest Framework e Bootstrap5. Permite o gerenciamento seguro de produtos, marcas, categorias, fornecedores, entradas e saídas com autenticação JWT.
+Um sistema completo de gestão de estoque construído com Django Rest Framework e TailwindCSS. Permite o gerenciamento seguro de produtos, marcas, categorias, fornecedores, entradas e saídas com autenticação JWT.
 
 ---
 
@@ -16,7 +16,7 @@ Um sistema completo de gestão de estoque construído com Django Rest Framework 
 - 📥 Inflow and outflow control  
 - 🔐 JWT authentication  
 - 📊 RESTful API documentation  
-- 🎨 Responsive interface with Bootstrap5  
+- 🎨 Responsive interface with TailwindCSS  
 - 🤖 Optional OpenAI integration for contextual intelligence
 
 ### PT/BR
@@ -25,7 +25,7 @@ Um sistema completo de gestão de estoque construído com Django Rest Framework 
 - 📥 Controle de entradas e saídas  
 - 🔐 Autenticação com JWT  
 - 📊 Documentação da API RESTful  
-- 🎨 Interface responsiva com Bootstrap5  
+- 🎨 Interface responsiva com TailwindCSS 
 - 🤖 Integração opcional com OpenAI para inteligência contextual
 
 ---
@@ -34,7 +34,7 @@ Um sistema completo de gestão de estoque construído com Django Rest Framework 
 
 | Layer         | Technologies                          |
 |---------------|----------------------------------------|
-| Front-end     | HTML5, CSS3, Bootstrap5                |
+| Front-end     | HTML5, CSS3, TailwindCSS               |
 | Back-end      | Django, Django Rest Framework, JWT     |
 | Database      | PostgreSQL                             |
 | AI (optional) | OpenAI                                 |
@@ -43,7 +43,7 @@ Um sistema completo de gestão de estoque construído com Django Rest Framework 
 
 | Camada        | Tecnologias                            |
 |---------------|----------------------------------------|
-| Front-end     | HTML5, CSS3, Bootstrap5                |
+| Front-end     | HTML5, CSS3, TailwindCSS               |
 | Back-end      | Django, Django Rest Framework, JWT     |
 | Banco de Dados| PostgreSQL                             |
 | IA (opcional) | OpenAI                                 |
