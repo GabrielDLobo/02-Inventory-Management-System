@@ -62,7 +62,7 @@ Run the project using Python
     
 --- 
 
-## 📋 API Reference | Documentação Geral da API
+# 📋 API Reference | Documentação Geral da API
 
 The API is organized into modules:
 
