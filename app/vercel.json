@@ -7,7 +7,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "02-INVENTORY-MANAGEMENT-SYSTEM/app/wsgi.py"
+            "dest": "app/wsgi.py"
         }
     ]
 }
