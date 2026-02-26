@@ -1,195 +1,125 @@
-# 02-Inventory-Management-System
+# Inventory Management System (SGE) — Django
 
+A Django-based **Inventory Management System** (SGE - *Sistema de Gestão de Estoque*) that allows you to manage products, suppliers, and stock movements (inflows/outflows), providing a dashboard with metrics and charts. It also includes an optional **AI insights** module to generate short daily inventory/sales recommendations based on system data.
 
-A full-featured **Inventory Management System** designed to securely handle inventory operations such as tracking products, brands, categories, suppliers, and managing inflows and outflows. Built with **Django Rest Framework** and **TailwindCSS**, the system supports JWT authentication for secure access control.
+## Key Features
 
-## Main Features
+- **Authentication**
+  - Login/Logout pages
+  - Permission-based access to modules and dashboard sections
 
-- **Product Management**: Add, update, and delete products with detailed information.
-- **Brand & Category Handling**: Organize inventory by brands and categories.
-- **Supplier Management**: Keep track of suppliers for efficient sourcing.
-- **Flow Operations**: Manage inflows and outflows effortlessly to track stock changes.
-- **User Authentication**: Implemented using **JWT (JSON Web Tokens)** for secure access.
-- **Responsive Design**: Styled with **TailwindCSS** to ensure a good user experience across devices.
+- **Inventory domain modules**
+  - Suppliers
+  - Brands
+  - Categories
+  - Products
 
----
+- **Stock movements**
+  - **Inflows**: register incoming stock (purchases/entries)
+  - **Outflows**: register outgoing stock (sales/dispatch)
 
-## Live Demo
+- **Dashboard**
+  - Inventory metrics
+  - Sales metrics
+  - Charts and daily aggregations
 
-Coming soon.
----
+- **AI Insights (optional)**
+  - Uses OpenAI to generate short, direct insights about replenishment and sales/outflows
+  - Stores generated insights and shows them in the dashboard
 
-## Table of Contents
+## Tech Stack
 
-- [02-Inventory-Management-System](#02-inventory-management-system)
-  - [Main Features](#main-features)
-  - [Live Demo](#live-demo)
-  - [Coming soon.](#coming-soon)
-  - [Table of Contents](#table-of-contents)
-  - [Technologies](#technologies)
-  - [Requirements](#requirements)
-  - [Setup Instructions](#setup-instructions)
-    - [Clone the Repository](#clone-the-repository)
-    - [Install Dependencies](#install-dependencies)
-  - [Running Locally](#running-locally)
-    - [Using Docker](#using-docker)
-    - [Without Docker](#without-docker)
-  - [Development Mode](#development-mode)
-  - [Project Structure](#project-structure)
-  - [License](#license)
-  - [Contributing](#contributing)
-- [Project Images](#project-images)
-  - [Login](#login)
-  - [Home](#home)
-  - [Suppliers / Fornecedores](#suppliers--fornecedores)
-  - [Brands / Marcas](#brands--marcas)
-  - [Categories / Categorias](#categories--categorias)
-  - [Products / Produtos](#products--produtos)
-  - [Inflows / Entradas](#inflows--entradas)
-  - [Outflows / Saídas](#outflows--saídas)
+- Python / Django
+- Django Templates (HTML)
+- TailwindCSS (via CDN)
+- (Optional) OpenAI API
 
----
+## Project Structure (high-level)
 
-## Technologies
+Common Django apps you may find in this repository:
 
-This project leverages the following key technologies:
+- `app/` — Django project configuration (settings/urls) and dashboard views
+- `products/`, `categories/`, `brands/`, `suppliers/` — master data
+- `inflows/`, `outflows/` — stock movements
+- `authentication/` — API/auth related endpoints (mounted under `/api/v1/`)
+- `ai/` — AI prompts + agent logic that produces inventory insights
 
-- **Backend**:
-  - `Django`
-  - `Django Rest Framework`
-- **Frontend**:
-  - `HTML`
-  - `TailwindCSS`
-- **Database**:
-  - Configurable (PostgreSQL, SQLite, etc.)
-- **Containerization**:
-  - `Docker`
-  - `docker-compose`
-- **Authentication**:
-  - JWT (JSON Web Tokens)
-- **Code Quality**:
-  - `Flake8`
+## Main Routes (typical)
 
----
+- `GET /login/` — Login
+- `POST /login/` — Login submit
+- `GET /logout/` — Logout
+- `GET /home/` — Dashboard
+- `/api/v1/` — API (authentication module)
 
-## Requirements
+> Other routes depend on each module (`products`, `inflows`, `outflows`, etc.).
 
-Make sure you have the following installed:
+## Getting Started (development)
 
-- Python 3.8+
-- Docker (for containerized environments)
-- npm (Node Package Manager) for TailwindCSS if not using Docker
-- pip for Python dependency management
-
----
-
-## Setup Instructions
-
-### Clone the Repository
+### 1) Clone and create a virtual environment
 
 ```bash
 git clone https://github.com/GabrielDLobo/02-Inventory-Management-System.git
 cd 02-Inventory-Management-System
+
+python -m venv .venv
+# Linux/Mac:
+source .venv/bin/activate
+# Windows:
+# .venv\Scripts\activate
 ```
 
-### Install Dependencies
+### 2) Install dependencies
 
-Install Python dependencies:
+If the repository has a `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-For development, also install these:
+If not, install the minimum:
 
 ```bash
-pip install -r requirements_dev.txt
+pip install django python-decouple
 ```
 
-Install JavaScript dependencies for TailwindCSS if required:
+### 3) Configure environment variables
+
+Create a `.env` file if your settings expect it. For AI features, set:
+
+- `OPENAI_API_KEY`
+- `OPENAI_MODEL` (e.g. `gpt-4o-mini`)
+
+If you don't want AI features, you can keep them unset and disable the related execution in your environment.
+
+### 4) Run migrations and create an admin user
 
 ```bash
-npm install
+python manage.py migrate
+python manage.py createsuperuser
 ```
 
----
-
-## Running Locally
-
-### Using Docker
-
-1. Build the Docker containers:
-   ```bash
-   docker-compose up --build
-   ```
-
-2. Access the application at [`http://localhost:8000`](http://localhost:8000).
-
-### Without Docker
-
-1. Run database migrations:
-   ```bash
-   python manage.py migrate
-   ```
-
-2. Start the development server:
-   ```bash
-   python manage.py runserver
-   ```
-
-3. Access the system at [`http://localhost:8000`](http://localhost:8000).
-
----
-
-## Development Mode
-
-When developing, you can use the provided `manage.py` file to run jobs, migrations, and other Django commands. Ensure to use `flake8` for code formatting:
+### 5) Run the server
 
 ```bash
-flake8
-```
-For periodic tasks, see `/cron`.
-
----
-
-## Project Structure
-
-```
-.
-|-- ai/
-|-- app/
-|-- authentication/
-|-- brands/
-|-- categories/
-|-- inflows/
-|-- outflows/
-|-- products/
-|-- public/
-|-- suppliers/
-|-- services/  
+python manage.py runserver
 ```
 
-- `Dockerfile` → Used for building the Docker container.
-- `docker-compose.yml` → Predefined setup for container orchestration.
-- `requirements.txt` → Production dependencies.
-- `requirements_dev.txt` → Development dependencies.
-- `manage.py` → Main project management script.
+Open: http://127.0.0.1:8000/
 
----
+## How this project complements the Webhooks project
+
+This repository is the **core system** where stock and sales are recorded.  
+The companion repository **03-Webhooks-Inventory-Management-System** can be used as an **integration/notification service** to receive events (like a new sale/outflow) and send notifications (email + messaging).
+
+A common setup is:
+1. A sale is created in this system (or in another system).
+2. An event is posted to the Webhooks service.
+3. Notifications are sent to administrators or stakeholders.
 
 ## License
 
-> This project is open source, but no license was explicitly defined.
-
-Feel free to clone, use, and contribute back!
-
----
-
-## Contributing
-
-Pull requests are welcome! For large changes, consider opening an issue first to discuss what you would like to change.
-
----
+No license file is included by default. Add a license if you plan to distribute or use this project commercially.
 
 # Project Images
 
