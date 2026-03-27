@@ -1,0 +1,1807 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Django-based Inventory Management System (SGE - Sistema de Gestão de Estoque) that allows you to manage products, suppliers, and stock movements (inflows/outflows), providing a dashboard with metrics and charts. It also includes an optional AI insights module to generate short daily inventory/sales recommendations based on system data.">
+      
+      
+        <meta name="author" content="GabrielDLobo">
+      
+      
+      
+        <link rel="prev" href="../guidelines/">
+      
+      
+        <link rel="next" href="../api-endpoints/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Estrutura - Inventory Management System</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#project-structure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Inventory Management System" class="md-header__button md-logo" aria-label="Inventory Management System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Inventory Management System
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Estrutura
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Inventory Management System" class="md-nav__button md-logo" aria-label="Inventory Management System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Inventory Management System
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Início
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visão geral
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pré-requisitos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instalação
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuração
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Guidelines e padrões
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Estrutura
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Estrutura
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Application Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-ai-integration-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /ai/ - AI Integration Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app-main-application-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /app/ - Main Application Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-authentication-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /authentication/ - Authentication Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brands-brands-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /brands/ - Brands Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#categories-categories-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /categories/ - Categories Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suppliers-suppliers-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /suppliers/ - Suppliers Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#products-products-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /products/ - Products Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inflows-stock-inflows-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /inflows/ - Stock Inflows Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outflows-stock-outflows-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /outflows/ - Stock Outflows Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#services-external-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      /services/ - External Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cron-scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      /cron/ - Scheduled Tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Modules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#models-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Models Overview
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      manage.py
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker-compose.yml
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirementstxt" class="md-nav__link">
+    <span class="md-ellipsis">
+      requirements.txt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyprojecttoml" class="md-nav__link">
+    <span class="md-ellipsis">
+      pyproject.toml
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Descriptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Descriptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Hierarchy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#url-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Schema
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-endpoints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Endpoints
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system-modeling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modelagem do Sistema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Autenticação e Segurança
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Desenvolvimento
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contribuição
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Application Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-ai-integration-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /ai/ - AI Integration Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app-main-application-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /app/ - Main Application Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-authentication-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /authentication/ - Authentication Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brands-brands-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /brands/ - Brands Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#categories-categories-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /categories/ - Categories Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suppliers-suppliers-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /suppliers/ - Suppliers Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#products-products-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /products/ - Products Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inflows-stock-inflows-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /inflows/ - Stock Inflows Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outflows-stock-outflows-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      /outflows/ - Stock Outflows Module
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#services-external-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      /services/ - External Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cron-scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      /cron/ - Scheduled Tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Modules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#models-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Models Overview
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      manage.py
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      docker-compose.yml
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirementstxt" class="md-nav__link">
+    <span class="md-ellipsis">
+      requirements.txt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyprojecttoml" class="md-nav__link">
+    <span class="md-ellipsis">
+      pyproject.toml
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Descriptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Descriptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template Hierarchy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#url-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Schema
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="project-structure">Project Structure</h1>
+<p>This document provides a comprehensive overview of the project's directory structure and file organization.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#root-structure">Root Structure</a></li>
+<li><a href="#application-structure">Application Structure</a></li>
+<li><a href="#core-modules">Core Modules</a></li>
+<li><a href="#configuration-files">Configuration Files</a></li>
+<li><a href="#file-descriptions">File Descriptions</a></li>
+</ol>
+<hr />
+<h2 id="root-structure">Root Structure</h2>
+<div class="highlight"><pre><span></span><code>02-Inventory-Management-System/
+├── .dockerignore              # Docker ignore patterns
+├── .flake8                    # Flake8 linting configuration
+├── .gitignore                 # Git ignore patterns
+├── cron/                      # Scheduled tasks/cron jobs
+├── docker-compose.yml         # Docker Compose configuration
+├── Dockerfile                 # Docker image configuration
+├── manage.py                  # Django management script
+├── pyproject.toml             # Python project configuration
+├── README.md                  # Project readme
+├── requirements.txt           # Python dependencies
+├── requirements_dev.txt       # Development dependencies
+│
+├── docs/                      # Documentation (this folder)
+│   ├── index.md
+│   ├── overview.md
+│   ├── prerequisites.md
+│   ├── installation.md
+│   ├── configuration.md
+│   ├── guidelines.md
+│   ├── project-structure.md
+│   ├── api-endpoints.md
+│   ├── system-modeling.md
+│   ├── authentication-security.md
+│   ├── development.md
+│   ├── testing.md
+│   ├── deploy.md
+│   ├── contribution.md
+│   └── release-notes.md
+│
+├── ai/                        # AI/ML module (OpenAI integration)
+├── app/                       # Main Django app (dashboard, settings)
+├── authentication/            # Authentication API module
+├── brands/                    # Brands management module
+├── categories/                # Categories management module
+├── inflows/                   # Stock inflows module
+├── outflows/                  # Stock outflows module
+├── products/                  # Products management module
+├── suppliers/                 # Suppliers management module
+└── services/                  # External services (webhooks, notifications)
+</code></pre></div>
+<hr />
+<h2 id="application-structure">Application Structure</h2>
+<h3 id="ai-ai-integration-module"><code>/ai/</code> - AI Integration Module</h3>
+<div class="highlight"><pre><span></span><code>ai/
+├── __init__.py
+├── agent.py           # OpenAI API integration class
+├── models.py          # AIResult model
+├── prompts.py         # AI prompts and templates
+├── admin.py           # Admin configuration
+├── apps.py            # App configuration
+├── tests.py           # Tests
+└── views.py           # AI-related views
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>agent.py</code> - <code>SGEAgent</code> class that interfaces with OpenAI
+- <code>prompts.py</code> - System and user prompts for AI analysis
+- <code>models.py</code> - <code>AIResult</code> model to store AI insights</p>
+<hr />
+<h3 id="app-main-application-module"><code>/app/</code> - Main Application Module</h3>
+<div class="highlight"><pre><span></span><code>app/
+├── __init__.py
+├── settings.py        # Django settings
+├── urls.py            # Main URL routing
+├── views.py           # Dashboard views
+├── metrics.py         # Metrics and analytics functions
+├── admin.py           # Admin configuration
+├── apps.py            # App configuration
+├── wsgi.py            # WSGI configuration
+│
+├── templates/
+│   ├── base.html              # Base template
+│   ├── home.html              # Dashboard home
+│   ├── login.html             # Login page
+│   │
+│   ├── components/
+│   │   ├── _header.html       # Header component
+│   │   ├── _sidebar.html      # Sidebar navigation
+│   │   ├── _footer.html       # Footer component
+│   │   ├── _pagination.html   # Pagination component
+│   │   ├── _product_metrics.html   # Product metrics cards
+│   │   ├── _sales_metrics.html     # Sales metrics cards
+│   │   └── _ai_result.html         # AI insights display
+│   │
+│   └── registration/
+│       └── login.html       # Login template
+│
+└── static/
+    ├── css/
+    ├── js/
+    └── images/
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>settings.py</code> - All Django configuration
+- <code>urls.py</code> - Main URL router
+- <code>metrics.py</code> - Dashboard metrics calculations
+- <code>templates/base.html</code> - Base template with TailwindCSS</p>
+<hr />
+<h3 id="authentication-authentication-module"><code>/authentication/</code> - Authentication Module</h3>
+<div class="highlight"><pre><span></span><code>authentication/
+├── __init__.py
+├── serializers.py     # JWT serializers
+├── urls.py            # Authentication URLs
+├── views.py           # Auth views
+├── admin.py
+├── apps.py
+├── models.py
+└── tests.py
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>serializers.py</code> - Token obtain/refresh serializers
+- <code>urls.py</code> - JWT token endpoints</p>
+<hr />
+<h3 id="brands-brands-module"><code>/brands/</code> - Brands Module</h3>
+<div class="highlight"><pre><span></span><code>brands/
+├── __init__.py
+├── models.py          # Brand model
+├── serializers.py     # Brand serializer
+├── urls.py            # Brand URLs
+├── views.py           # Brand views (API + Web)
+├── forms.py           # Brand forms
+├── admin.py           # Admin configuration
+├── apps.py
+├── tests.py
+│
+└── templates/
+    └── brands/
+        ├── brand_list.html
+        ├── brand_create.html
+        ├── brand_detail.html
+        ├── brand_update.html
+        └── brand_delete.html
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>models.py</code> - <code>Brand</code> model
+- <code>views.py</code> - CRUD views for brands
+- <code>templates/brands/</code> - Brand templates</p>
+<hr />
+<h3 id="categories-categories-module"><code>/categories/</code> - Categories Module</h3>
+<div class="highlight"><pre><span></span><code>categories/
+├── __init__.py
+├── models.py          # Category model
+├── serializers.py     # Category serializer
+├── urls.py            # Category URLs
+├── views.py           # Category views
+├── forms.py           # Category forms
+├── admin.py
+├── apps.py
+├── tests.py
+│
+└── templates/
+    └── categories/
+        ├── category_list.html
+        ├── category_create.html
+        ├── category_detail.html
+        ├── category_update.html
+        └── category_delete.html
+</code></pre></div>
+<hr />
+<h3 id="suppliers-suppliers-module"><code>/suppliers/</code> - Suppliers Module</h3>
+<div class="highlight"><pre><span></span><code>suppliers/
+├── __init__.py
+├── models.py          # Supplier model
+├── serializers.py     # Supplier serializer
+├── urls.py            # Supplier URLs
+├── views.py           # Supplier views
+├── forms.py           # Supplier forms
+├── admin.py
+├── apps.py
+├── tests.py
+│
+└── templates/
+    └── suppliers/
+        ├── supplier_list.html
+        ├── supplier_create.html
+        ├── supplier_detail.html
+        ├── supplier_update.html
+        └── supplier_delete.html
+</code></pre></div>
+<hr />
+<h3 id="products-products-module"><code>/products/</code> - Products Module</h3>
+<div class="highlight"><pre><span></span><code>products/
+├── __init__.py
+├── models.py          # Product model
+├── serializers.py     # Product serializer
+├── urls.py            # Product URLs
+├── views.py           # Product views
+├── forms.py           # Product forms
+├── admin.py
+├── apps.py
+├── tests.py
+│
+└── templates/
+    └── products/
+        ├── product_list.html
+        ├── product_create.html
+        ├── product_detail.html
+        ├── product_update.html
+        └── product_delete.html
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>models.py</code> - <code>Product</code> model with price/quantity tracking
+- <code>views.py</code> - Full CRUD views
+- <code>forms.py</code> - Product forms with validation</p>
+<hr />
+<h3 id="inflows-stock-inflows-module"><code>/inflows/</code> - Stock Inflows Module</h3>
+<div class="highlight"><pre><span></span><code>inflows/
+├── __init__.py
+├── models.py          # Inflow model
+├── serializers.py     # Inflow serializer
+├── urls.py            # Inflow URLs
+├── views.py           # Inflow views
+├── forms.py           # Inflow forms
+├── admin.py
+├── apps.py
+├── signals.py         # Signal handlers (auto-update quantity)
+├── tests.py
+│
+└── templates/
+    └── inflows/
+        ├── inflow_list.html
+        ├── inflow_create.html
+        └── inflow_detail.html
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>models.py</code> - <code>Inflow</code> model
+- <code>signals.py</code> - Auto-update product quantity on inflow</p>
+<hr />
+<h3 id="outflows-stock-outflows-module"><code>/outflows/</code> - Stock Outflows Module</h3>
+<div class="highlight"><pre><span></span><code>outflows/
+├── __init__.py
+├── models.py          # Outflow model
+├── serializers.py     # Outflow serializer
+├── urls.py            # Outflow URLs
+├── views.py           # Outflow views
+├── forms.py           # Outflow forms
+├── admin.py
+├── apps.py
+├── signals.py         # Signal handlers + webhook trigger
+├── tests.py
+│
+└── templates/
+    └── outflows/
+        ├── outflow_list.html
+        ├── outflow_create.html
+        └── outflow_detail.html
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>models.py</code> - <code>Outflow</code> model
+- <code>signals.py</code> - Auto-update quantity + webhook trigger</p>
+<hr />
+<h3 id="services-external-services"><code>/services/</code> - External Services</h3>
+<div class="highlight"><pre><span></span><code>services/
+├── __init__.py
+└── notify.py          # Webhook notification service
+</code></pre></div>
+<p><strong>Key Files:</strong>
+- <code>notify.py</code> - <code>Notify</code> class for sending webhooks</p>
+<hr />
+<h3 id="cron-scheduled-tasks"><code>/cron/</code> - Scheduled Tasks</h3>
+<div class="highlight"><pre><span></span><code>cron/
+└── (scheduled task scripts)
+</code></pre></div>
+<hr />
+<h2 id="core-modules">Core Modules</h2>
+<h3 id="models-overview">Models Overview</h3>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Model</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brands/</code></td>
+<td><code>Brand</code></td>
+<td>Product brands</td>
+</tr>
+<tr>
+<td><code>categories/</code></td>
+<td><code>Category</code></td>
+<td>Product categories</td>
+</tr>
+<tr>
+<td><code>suppliers/</code></td>
+<td><code>Supplier</code></td>
+<td>Product suppliers</td>
+</tr>
+<tr>
+<td><code>products/</code></td>
+<td><code>Product</code></td>
+<td>Inventory products</td>
+</tr>
+<tr>
+<td><code>inflows/</code></td>
+<td><code>Inflow</code></td>
+<td>Stock entries</td>
+</tr>
+<tr>
+<td><code>outflows/</code></td>
+<td><code>Outflow</code></td>
+<td>Stock exits</td>
+</tr>
+<tr>
+<td><code>ai/</code></td>
+<td><code>AIResult</code></td>
+<td>AI insights</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="configuration-files">Configuration Files</h2>
+<h3 id="managepy"><code>manage.py</code></h3>
+<p>Django's command-line utility for administrative tasks.</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;Django&#39;s command-line utility for administrative tasks.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;DJANGO_SETTINGS_MODULE&#39;</span><span class="p">,</span> <span class="s1">&#39;app.settings&#39;</span><span class="p">)</span>
+    <span class="n">execute_from_command_line</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="docker-composeyml"><code>docker-compose.yml</code></h3>
+<p>Docker Compose configuration for multi-container setup.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sge_web</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sge_db</span>
+
+<span class="w">  </span><span class="nt">sge_db</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data</span>
+</code></pre></div>
+<h3 id="dockerfile"><code>Dockerfile</code></h3>
+<p>Docker image configuration.</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;manage.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;runserver&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0:8000&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="requirementstxt"><code>requirements.txt</code></h3>
+<p>Python dependencies.</p>
+<div class="highlight"><pre><span></span><code>Django==5.0.1
+djangorestframework==3.15.1
+djangorestframework-simplejwt==5.3.1
+openai==1.38.0
+psycopg2-binary==2.9.10
+django-widget-tweaks==1.5.0
+httpx==0.28.1
+pydantic==2.10.6
+</code></pre></div>
+<h3 id="pyprojecttoml"><code>pyproject.toml</code></h3>
+<p>Python project configuration (black, isort, etc.).</p>
+<hr />
+<h2 id="file-descriptions">File Descriptions</h2>
+<h3 id="root-files">Root Files</h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.dockerignore</code></td>
+<td>Files to exclude from Docker build</td>
+</tr>
+<tr>
+<td><code>.flake8</code></td>
+<td>Linting rules configuration</td>
+</tr>
+<tr>
+<td><code>.gitignore</code></td>
+<td>Files to exclude from Git</td>
+</tr>
+<tr>
+<td><code>docker-compose.yml</code></td>
+<td>Docker services orchestration</td>
+</tr>
+<tr>
+<td><code>Dockerfile</code></td>
+<td>Docker image build instructions</td>
+</tr>
+<tr>
+<td><code>manage.py</code></td>
+<td>Django CLI utility</td>
+</tr>
+<tr>
+<td><code>requirements.txt</code></td>
+<td>Production dependencies</td>
+</tr>
+<tr>
+<td><code>requirements_dev.txt</code></td>
+<td>Development dependencies</td>
+</tr>
+<tr>
+<td><code>pyproject.toml</code></td>
+<td>Python tool configuration</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>Project overview</td>
+</tr>
+</tbody>
+</table>
+<h3 id="application-files">Application Files</h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/settings.py</code></td>
+<td>Django configuration</td>
+</tr>
+<tr>
+<td><code>app/urls.py</code></td>
+<td>Main URL routing</td>
+</tr>
+<tr>
+<td><code>app/views.py</code></td>
+<td>Dashboard views</td>
+</tr>
+<tr>
+<td><code>app/metrics.py</code></td>
+<td>Analytics functions</td>
+</tr>
+<tr>
+<td><code>*/models.py</code></td>
+<td>Database models</td>
+</tr>
+<tr>
+<td><code>*/views.py</code></td>
+<td>Request handlers</td>
+</tr>
+<tr>
+<td><code>*/serializers.py</code></td>
+<td>API data serializers</td>
+</tr>
+<tr>
+<td><code>*/forms.py</code></td>
+<td>Django forms</td>
+</tr>
+<tr>
+<td><code>*/admin.py</code></td>
+<td>Admin panel config</td>
+</tr>
+<tr>
+<td><code>*/signals.py</code></td>
+<td>Django signal handlers</td>
+</tr>
+<tr>
+<td><code>*/urls.py</code></td>
+<td>App URL patterns</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="template-hierarchy">Template Hierarchy</h2>
+<div class="highlight"><pre><span></span><code>templates/
+├── base.html              # Base template (all pages extend this)
+│   ├── includes/
+│   │   ├── _header.html   # Top navigation
+│   │   ├── _sidebar.html  # Side navigation
+│   │   └── _footer.html   # Footer
+│   │
+│   └── Pages:
+│       ├── home.html              # Dashboard
+│       ├── registration/login.html # Login page
+│       │
+│       ├── brands/                # Brand pages
+│       ├── categories/            # Category pages
+│       ├── suppliers/             # Supplier pages
+│       ├── products/              # Product pages
+│       ├── inflows/               # Inflow pages
+│       └── outflows/              # Outflow pages
+</code></pre></div>
+<hr />
+<h2 id="url-structure">URL Structure</h2>
+<div class="highlight"><pre><span></span><code>/                              # Root (redirects to login/home)
+/login/                        # Login page
+/logout/                       # Logout
+/home/                         # Dashboard
+/admin/                        # Django admin
+
+/api/v1/
+├── authentication/
+│   ├── token/                 # Get JWT token
+│   ├── token/refresh/         # Refresh token
+│   └── token/verify/          # Verify token
+├── brands/
+├── categories/
+├── suppliers/
+├── products/
+├── inflows/
+└── outflows/
+
+/brands/list/
+/brands/create/
+/brands/&lt;pk&gt;/detail/
+/brands/&lt;pk&gt;/update/
+/brands/&lt;pk&gt;/delete/
+
+# Similar patterns for categories, suppliers, products, inflows, outflows
+</code></pre></div>
+<hr />
+<h2 id="database-schema">Database Schema</h2>
+<div class="highlight"><pre><span></span><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Brand     │     │  Category   │     │  Supplier   │
+├─────────────┤     ├─────────────┤     ├─────────────┤
+│ id          │     │ id          │     │ id          │
+│ name        │     │ name        │     │ name        │
+│ description │     │ description │     │ description │
+│ created_at  │     │ created_at  │     │ created_at  │
+│ updated_at  │     │ updated_at  │     │ updated_at  │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   │
+       │                   │                   │
+       ▼                   ▼                   ▼
+┌─────────────────────────────────────────────────────┐
+│                     Product                          │
+├─────────────────────────────────────────────────────┤
+│ id                                                   │
+│ title                                                │
+│ description                                          │
+│ cost_price                                           │
+│ selling_price                                        │
+│ quantity                                             │
+│ serie_number                                         │
+│ brand_id (FK)                                        │
+│ category_id (FK)                                     │
+│ created_at                                           │
+│ updated_at                                           │
+└─────────────────────────────────────────────────────┘
+       │
+       ├──────────────┐
+       │              │
+       ▼              ▼
+┌─────────────┐ ┌─────────────┐
+│   Inflow    │ │   Outflow   │
+├─────────────┤ ├─────────────┤
+│ id          │ │ id          │
+│ quantity    │ │ quantity    │
+│ description │ │ description │
+│ supplier_id │ │ product_id  │
+│ product_id  │ │ created_at  │
+│ created_at  │ │ updated_at  │
+│ updated_at  │ └─────────────┘
+└─────────────┘
+</code></pre></div>
+<hr />
+<p><strong>Next Steps</strong>: 
+- <a href="../api-endpoints/">API Endpoints</a> - Complete API reference
+- <a href="../system-modeling/">System Modeling</a> - Architecture diagrams</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
