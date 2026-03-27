@@ -2,12 +2,10 @@
 
 A Django-based **Inventory Management System** (SGE - *Sistema de Gestão de Estoque*) that allows you to manage products, suppliers, and stock movements (inflows/outflows), providing a dashboard with metrics and charts. It also includes an optional **AI insights** module to generate short daily inventory/sales recommendations based on system data.
 
-## Documentation / Documentacao
+## Documentation
 
-- EN: Full project documentation is available at:
-  https://gabrieldlobo.github.io/02-Inventory-Management-System/
-- PT: A documentacao completa do projeto esta disponivel em:
-  https://gabrieldlobo.github.io/02-Inventory-Management-System/
+Full project documentation is available at:
+<a href="https://gabrieldlobo.github.io/02-Inventory-Management-System/" target="_blank" rel="noopener noreferrer">https://gabrieldlobo.github.io/02-Inventory-Management-System/</a>
 
 ### Local preview
 
@@ -15,12 +13,12 @@ A Django-based **Inventory Management System** (SGE - *Sistema de Gestão de Est
 mkdocs serve -a 127.0.0.1:8001
 ```
 
-Open: http://127.0.0.1:8001/
+Open:
+<a href="http://127.0.0.1:8001/" target="_blank" rel="noopener noreferrer">http://127.0.0.1:8001/</a>
 
 ### Docs source
 
-- EN: Edit markdown pages in `docs/` and navigation in `mkdocs.yml`.
-- PT: Edite as paginas markdown em `docs/` e o menu em `mkdocs.yml`.
+Edit markdown pages in `docs/` and navigation in `mkdocs.yml`.
 
 ### Publish
 
