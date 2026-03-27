@@ -1,0 +1,8 @@
+[tool.taskipy.tasks]
+lint = 'ruff check'
+pre_format = 'ruff check --fix'
+format = 'ruff format'
+run = 'python manage.py runserver'
+docs = 'mkdocs serve -a 127.0.0.1:8001'
+docs_build = 'mkdocs build --clean'
+docs_strict = 'mkdocs build --strict --clean'

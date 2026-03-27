@@ -1,4 +1,5 @@
 venv
+site
 db.sqlite3
 media
 __pycache__/
