@@ -2,6 +2,45 @@
 
 A Django-based **Inventory Management System** (SGE - *Sistema de Gestão de Estoque*) that allows you to manage products, suppliers, and stock movements (inflows/outflows), providing a dashboard with metrics and charts. It also includes an optional **AI insights** module to generate short daily inventory/sales recommendations based on system data.
 
+## 🚀 Live Demo
+
+A public demo instance runs on **Vercel** (Python serverless / WSGI), backed by a **Postgres** database on **Neon**:
+
+**URL:** https://sge-demo-puce.vercel.app
+
+**Login:**
+- Usuário: `demo`
+- Senha: `demo1234`
+
+The `demo` account is not staff/superuser — it only has view/add/change/delete permissions on the main modules (products, categories, brands, suppliers) and view/add on inflows/outflows. It cannot access `/admin/`, create other users, or change passwords (blocked by `DemoModeMiddleware` while `DEMO_MODE=True`).
+
+### Resetting the demo data
+
+All data (products, brands, categories, suppliers, inflows/outflows) is fictional. It can be reset back to the original seeded dataset at any time:
+
+```bash
+curl -X POST -H "X-Reset-Token: <RESET_TOKEN>" https://sge-demo-puce.vercel.app/api/reset-demo/
+```
+
+`RESET_TOKEN` is stored only as a Vercel environment variable and is not published here. Resetting invalidates active `demo` sessions (the password hash is reset), so a fresh login is required afterwards. Resets are currently manual/on-demand — there is no automated schedule configured yet; wiring one up (e.g. Vercel Cron or a GitHub Action hitting the endpoint) is a natural next step if fully unattended periodic resets are wanted.
+
+Locally, the same effect can be achieved with:
+
+```bash
+python manage.py reset_demo
+```
+
+### Serverless limitations
+
+Running Django on Vercel's Python serverless runtime introduces a few constraints compared to a normal always-on server:
+
+- **No background jobs / scheduler**: the original crontab-based task (`fazer_coisas`) was removed; nothing runs on a fixed schedule, and there's no Celery/queue worker.
+- **SQLite is dev-only**: each serverless invocation is stateless and ephemeral, so production uses Postgres (Neon) via `DATABASE_URL`; `db.sqlite3` remains the default only for local development (no `DATABASE_URL` set).
+- **Static files are pre-collected and committed**: there is no custom build step to run `collectstatic` on Vercel's build, so `staticfiles/` is generated locally (`python manage.py collectstatic`) and committed to the repo; it's served in-process by **WhiteNoise**.
+- **Cold starts**: the first request after a period of inactivity can take a few seconds longer.
+- **Real-time webhook notification disabled**: the synchronous call to the companion `03-Webhooks-Inventory-Management-System` project (previously fired on every outflow, pointed at `http://localhost:8001`) is disabled in `outflows/signals.py` for this deployment, since that service isn't reachable from Vercel's serverless functions.
+- **Migrations run manually**: Vercel's build only installs Python dependencies (`pip install -r requirements.txt`); `python manage.py migrate` must be run locally (or via a separate job/CI step) against the production database — it does not run automatically on deploy.
+
 ## Documentation
 
 Full project documentation is available at:
@@ -140,6 +179,8 @@ A common setup is:
 1. A sale is created in this system (or in another system).
 2. An event is posted to the Webhooks service.
 3. Notifications are sent to administrators or stakeholders.
+
+> **Note:** this integration is disabled in the [Live Demo](#-live-demo) deployed on Vercel, since the Webhooks service isn't reachable from that serverless environment. Re-enable it in `outflows/signals.py` if you deploy both services together.
 
 ## License
 
