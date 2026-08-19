@@ -4,11 +4,17 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from ai.models import AIResult
 from . import metrics
+
+
+def index(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    return redirect('login')
 
 
 @login_required(login_url='login')
