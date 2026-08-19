@@ -10,23 +10,31 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
+import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p%a7njmpp-*sj*-g$k!-(olb3%0(y&bk=y34g!!)e993whp6w*'
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-p%a7njmpp-*sj*-g$k!-(olb3%0(y&bk=y34g!!)e993whp6w*',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app', 'zero2-inventory-management-system.onrender.com', 'zero2-inventory-management-system.onrender.com']
+ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -66,12 +74,13 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'app.middleware.DemoModeMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://zero2-inventory-management-system.onrender.com'
+    'https://*.vercel.app',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -87,6 +96,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.context_processors.demo_mode',
             ],
         },
     },
@@ -99,18 +109,10 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'prod': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sge',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'sge_db',
-        'PORT': '5432',
-    },
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
@@ -149,6 +151,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -172,4 +175,8 @@ SIMPLE_JWT = {
 }
 
 OPENAI_MODEL = 'gpt-3.5-turbo'
-OPENAI_API_KEY = 'INSERT YOUR API KEY HERE'
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+
+# Modo de demonstração pública (ver Etapa 3)
+DEMO_MODE = os.environ.get('DEMO_MODE', 'False') == 'True'
+RESET_TOKEN = os.environ.get('RESET_TOKEN', '')

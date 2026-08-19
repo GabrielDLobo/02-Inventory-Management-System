@@ -1,6 +1,12 @@
 import json
+import secrets
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.management import call_command
+from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from ai.models import AIResult
 from . import metrics
 
@@ -28,3 +34,16 @@ def home(request):
     }
 
     return render(request, 'home.html', context)
+
+
+@csrf_exempt
+@require_POST
+def reset_demo(request):
+    token = request.headers.get('X-Reset-Token', '') or request.GET.get('token', '')
+    expected_token = settings.RESET_TOKEN
+
+    if not expected_token or not secrets.compare_digest(token, expected_token):
+        return JsonResponse({'detail': 'Token inválido.'}, status=403)
+
+    call_command('reset_demo')
+    return JsonResponse({'detail': 'Dados de demonstração reiniciados com sucesso.'})

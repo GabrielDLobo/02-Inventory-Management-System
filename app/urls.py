@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
     path('api/v1/', include('authentication.urls')),
+    path('api/reset-demo/', views.reset_demo, name='reset_demo'),
 
     path('home/', views.home, name='home'),
     
