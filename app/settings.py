@@ -70,6 +70,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -153,6 +154,15 @@ USE_TZ = False
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+    },
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -180,3 +190,10 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
 # Modo de demonstração pública (ver Etapa 3)
 DEMO_MODE = os.environ.get('DEMO_MODE', 'False') == 'True'
 RESET_TOKEN = os.environ.get('RESET_TOKEN', '')
+
+# A Vercel injeta VERCEL=1 no ambiente de execução das funções serverless.
+# Só força HTTPS/cookies seguros lá, para não quebrar testes locais via HTTP.
+IS_VERCEL = os.environ.get('VERCEL') == '1'
+SESSION_COOKIE_SECURE = IS_VERCEL
+CSRF_COOKIE_SECURE = IS_VERCEL
+SECURE_SSL_REDIRECT = IS_VERCEL

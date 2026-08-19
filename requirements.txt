@@ -28,3 +28,4 @@ typing_extensions==4.12.2
 tzdata==2025.2
 urllib3==2.5.0
 vercel==0.2.1
+whitenoise==6.9.0
