@@ -31,7 +31,7 @@ SGE - Saídas
         </svg>
       </div>
       <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Total de Saídas</p>
-      <p class="font-display font-extrabold text-5xl text-ice tabular-nums">{{ outflows.count }}</p>
+      <p class="font-display font-bold text-3xl text-ice tabular-nums">{{ outflows.count }}</p>
     </div>
 
     <div class="bg-navy-800 border border-navy-700 rounded-card p-8 hover:border-saida/40 transition-colors duration-200 animate-slide-in-left" style="animation-delay: 0.05s;">
@@ -41,7 +41,7 @@ SGE - Saídas
         </svg>
       </div>
       <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Saídas Hoje</p>
-      <p class="font-display font-extrabold text-5xl text-ice tabular-nums">{{ today_outflows|default:0 }}</p>
+      <p class="font-display font-bold text-3xl text-ice tabular-nums">{{ today_outflows|default:0 }}</p>
     </div>
 
     <div class="bg-navy-800 border border-navy-700 rounded-card p-8 hover:border-saida/40 transition-colors duration-200 animate-slide-in-left" style="animation-delay: 0.1s;">
@@ -51,7 +51,7 @@ SGE - Saídas
         </svg>
       </div>
       <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Produtos Diferentes</p>
-      <p class="font-display font-extrabold text-5xl text-ice tabular-nums">{{ unique_products|default:0 }}</p>
+      <p class="font-display font-bold text-3xl text-ice tabular-nums">{{ unique_products|default:0 }}</p>
     </div>
   </div>
 </div>
