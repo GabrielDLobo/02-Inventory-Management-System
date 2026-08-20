@@ -30,7 +30,7 @@
       </svg>
     </div>
     <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Valor das Vendas</p>
-    <p class="font-display font-bold text-3xl text-ice tabular-nums">R$ {{ sales_metrics.total_sales_value }}</p>
+    <p class="flex items-baseline gap-1.5"><span class="font-display font-semibold text-lg text-mist">R$</span><span class="font-display font-bold text-3xl text-ice tabular-nums">{{ sales_metrics.total_sales_value }}</span></p>
   </div>
 
   <!-- Sales Profit Card (semântico: lucro = verde) -->
@@ -41,7 +41,7 @@
       </svg>
     </div>
     <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Lucro das Vendas</p>
-    <p class="font-display font-bold text-3xl text-ice tabular-nums">R$ {{ sales_metrics.total_sales_profit }}</p>
+    <p class="flex items-baseline gap-1.5"><span class="font-display font-semibold text-lg text-mist">R$</span><span class="font-display font-bold text-3xl text-ice tabular-nums">{{ sales_metrics.total_sales_profit }}</span></p>
   </div>
 
 </div>

@@ -19,7 +19,7 @@
       </svg>
     </div>
     <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Custo do Estoque</p>
-    <p class="font-display font-bold text-3xl text-ice tabular-nums">R$ {{ product_metrics.total_cost_price }}</p>
+    <p class="flex items-baseline gap-1.5"><span class="font-display font-semibold text-lg text-mist">R$</span><span class="font-display font-bold text-3xl text-ice tabular-nums">{{ product_metrics.total_cost_price }}</span></p>
   </div>
 
   <!-- Total Selling Price Card -->
@@ -30,7 +30,7 @@
       </svg>
     </div>
     <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Valor do Estoque</p>
-    <p class="font-display font-bold text-3xl text-ice tabular-nums">R$ {{ product_metrics.total_selling_price }}</p>
+    <p class="flex items-baseline gap-1.5"><span class="font-display font-semibold text-lg text-mist">R$</span><span class="font-display font-bold text-3xl text-ice tabular-nums">{{ product_metrics.total_selling_price }}</span></p>
   </div>
 
   <!-- Total Profit Card (semântico: lucro = verde) -->
@@ -41,7 +41,7 @@
       </svg>
     </div>
     <p class="text-xs font-bold uppercase tracking-wider text-mist mb-2">Lucro do Estoque</p>
-    <p class="font-display font-bold text-3xl text-ice tabular-nums">R$ {{ product_metrics.total_profit }}</p>
+    <p class="flex items-baseline gap-1.5"><span class="font-display font-semibold text-lg text-mist">R$</span><span class="font-display font-bold text-3xl text-ice tabular-nums">{{ product_metrics.total_profit }}</span></p>
   </div>
 
 </div>
