@@ -5,20 +5,20 @@ Cadastrar Nova Categoria - SGE
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 p-6">
+<div class="min-h-screen bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 p-6">
   
   <!-- Background decoration -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-40 -left-40 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+    <div class="absolute -top-40 -left-40 w-80 h-80 bg-sky-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
     <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
   </div>
 
   <div class="relative z-10 max-w-2xl mx-auto">
     
     <!-- Header Section -->
-    <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-6 mb-8">
+    <div class="bg-navy-800/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-6 mb-8">
       <div class="flex items-center space-x-4">
-        <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl">
+        <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-sky-500 to-emerald-600 rounded-xl">
           <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-7H3a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z"></path>
           </svg>
@@ -31,12 +31,12 @@ Cadastrar Nova Categoria - SGE
     </div>
 
     <!-- Form Card -->
-    <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-8">
+    <div class="bg-navy-800/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-8">
       
       <!-- Form Header -->
       <div class="mb-8">
         <h2 class="text-xl font-semibold text-white mb-2 flex items-center">
-          <svg class="w-6 h-6 mr-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 mr-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
           Informações da Categoria
@@ -101,7 +101,7 @@ Cadastrar Nova Categoria - SGE
                   name="{{ field.name }}" 
                   id="{{ field.id_for_label }}"
                   placeholder="{{ field.help_text|default:'Digite a descrição da categoria...' }}"
-                  class="w-full pl-10 pr-4 py-3 bg-gray-700/50 border {% if field.errors %}border-red-500{% else %}border-gray-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70 resize-vertical min-h-[120px]"
+                  class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border {% if field.errors %}border-red-500{% else %}border-slate-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70 resize-vertical min-h-[120px]"
                   {% if field.field.required %}required{% endif %}
                 >{{ field.value|default:'' }}</textarea>
               {% else %}
@@ -111,7 +111,7 @@ Cadastrar Nova Categoria - SGE
                   id="{{ field.id_for_label }}"
                   placeholder="{% if field.name == 'name' %}Digite o nome da categoria...{% else %}{{ field.help_text|default:'' }}{% endif %}"
                   value="{{ field.value|default:'' }}"
-                  class="w-full {% if field.name == 'name' %}pl-10{% else %}pl-4{% endif %} pr-4 py-3 bg-gray-700/50 border {% if field.errors %}border-red-500{% else %}border-gray-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70"
+                  class="w-full {% if field.name == 'name' %}pl-10{% else %}pl-4{% endif %} pr-4 py-3 bg-navy-700/50 border {% if field.errors %}border-red-500{% else %}border-slate-600{% endif %} rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                   {% if field.field.required %}required{% endif %}
                 >
               {% endif %}
@@ -121,10 +121,10 @@ Cadastrar Nova Categoria - SGE
         </div>
 
         <!-- Form Actions -->
-        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-700/50">
+        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-slate-700/50">
           <button 
             type="submit" 
-            class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg hover:shadow-xl">
+            class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-sky-600 to-emerald-600 hover:from-sky-700 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-navy-800 shadow-lg hover:shadow-xl">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
@@ -132,7 +132,7 @@ Cadastrar Nova Categoria - SGE
           </button>
           
           <a href="{% url 'category_list' %}" 
-             class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gray-600/50 hover:bg-gray-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-gray-500/30">
+             class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-navy-600/50 hover:bg-navy-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-slate-500/30">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -142,14 +142,14 @@ Cadastrar Nova Categoria - SGE
       </form>
 
       <!-- Help Text -->
-      <div class="mt-8 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+      <div class="mt-8 p-4 bg-sky-500/10 border border-sky-500/20 rounded-lg">
         <div class="flex items-start">
-          <svg class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-sky-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <div class="text-green-300 text-sm">
+          <div class="text-sky-300 text-sm">
             <p class="font-semibold mb-1">Dicas para cadastro:</p>
-            <ul class="space-y-1 text-green-300/80">
+            <ul class="space-y-1 text-sky-300/80">
               <li>• Utilize um nome claro e reconhecível para a categoria</li>
               <li>• A descrição deve ser informativa mas concisa</li>
               <li>• Campos marcados com * são obrigatórios</li>

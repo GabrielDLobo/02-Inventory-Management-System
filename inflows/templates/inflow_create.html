@@ -12,7 +12,7 @@ SGE - Nova Entrada
     <div class="flex items-center space-x-4">
       <!-- Back Button -->
       <a href="{% url 'inflow_list' %}" 
-         class="inline-flex items-center justify-center w-10 h-10 bg-gray-700/50 hover:bg-gray-600/50 text-gray-400 hover:text-white rounded-lg transition-all duration-200">
+         class="inline-flex items-center justify-center w-10 h-10 bg-navy-700/50 hover:bg-navy-600/50 text-gray-400 hover:text-white rounded-lg transition-all duration-200">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -35,7 +35,7 @@ SGE - Nova Entrada
 
 <!-- Main Form Container -->
 <div class="max-w-4xl mx-auto">
-  <div class="bg-gray-800/80 backdrop-blur-xl border border-gray-700/50 rounded-xl p-8 animate-slide-in-up">
+  <div class="bg-navy-800/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-8 animate-slide-in-up">
     <form method="post" class="space-y-8">
       {% csrf_token %}
       
@@ -146,7 +146,7 @@ SGE - Nova Entrada
       {% endif %}
 
       <!-- Form Actions -->
-      <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-700/50">
+      <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-slate-700/50">
         <button type="submit" 
                 class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +156,7 @@ SGE - Nova Entrada
         </button>
         
         <a href="{% url 'inflow_list' %}" 
-           class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-4 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white font-semibold rounded-lg transition-all duration-200">
+           class="flex-1 sm:flex-initial inline-flex items-center justify-center px-6 py-4 bg-navy-700/50 hover:bg-navy-600/50 text-gray-300 hover:text-white font-semibold rounded-lg transition-all duration-200">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
@@ -192,7 +192,7 @@ SGE - Nova Entrada
 <style>
 /* Custom form styling */
 .form-control, select {
-  @apply w-full pl-10 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 hover:bg-gray-700/70;
+  @apply w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70;
 }
 
 textarea.form-control {
