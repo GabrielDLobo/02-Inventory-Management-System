@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-navy-950 text-ice;
+  }
+
+  /* Visible keyboard focus everywhere, without adding a ring to mouse clicks. */
+  :focus-visible {
+    outline: 2px solid theme('colors.sky.500');
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Signature background: quiet technical grid, no animated blobs.
+     Used on every post-login page via <body>. */
+  .bg-field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, theme('colors.navy.950'), theme('colors.navy.900') 45%, theme('colors.navy.950'));
+  }
+  .bg-field::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(90deg, rgba(241, 245, 249, 0.035) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(0deg, rgba(241, 245, 249, 0.035) 0 1px, transparent 1px 64px);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 75%);
+  }
+
+  /* Signature accent: reserved for the dashboard welcome card and at most
+     one other highlight panel — never on CRUD list/form screens. */
+  .signature-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .signature-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 620px 380px at 88% 0%, rgba(14, 165, 233, 0.16), transparent 62%);
+    pointer-events: none;
+  }
+  .signature-barcode {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 96px;
+    opacity: 0.45;
+    background-image: repeating-linear-gradient(
+      90deg,
+      theme('colors.sky.500') 0 2px,
+      transparent 2px 6px,
+      theme('colors.sky.500') 6px 9px,
+      transparent 9px 15px,
+      theme('colors.sky.500') 15px 16px,
+      transparent 16px 24px,
+      theme('colors.sky.500') 24px 27px,
+      transparent 27px 34px
+    );
+    mask-image: linear-gradient(180deg, transparent, black 20%, black 80%, transparent);
+    pointer-events: none;
+  }
+
+  /* Table container: horizontal scroll on small screens with an
+     affordance shadow hinting there's more to the right. */
+  .table-scroll {
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-scroll::after {
+    content: '';
+    position: sticky;
+    top: 0;
+    right: 0;
+    float: right;
+    height: 100%;
+    width: 24px;
+    margin-right: -24px;
+    background: linear-gradient(90deg, transparent, rgba(10, 15, 28, 0.85));
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "sge-frontend",
+  "private": true,
+  "description": "Build-time only: compiles the Tailwind CSS served by Django/WhiteNoise. Not required at runtime on Vercel.",
+  "scripts": {
+    "build:css": "tailwindcss -i ./static_src/input.css -o ./app/static/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./static_src/input.css -o ./app/static/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}

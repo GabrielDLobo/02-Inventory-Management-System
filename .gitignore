@@ -13,3 +13,4 @@ test
 
 .vercel
 .env*
+node_modules
