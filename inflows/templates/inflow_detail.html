@@ -12,7 +12,7 @@ SGE - Entrada #{{ object.id }}
     <div class="flex items-center space-x-4">
       <!-- Back Button -->
       <a href="{% url 'inflow_list' %}" 
-         class="inline-flex items-center justify-center w-10 h-10 bg-navy-700/50 hover:bg-navy-600/50 text-gray-400 hover:text-white rounded-lg transition-all duration-200">
+         class="inline-flex items-center justify-center w-10 h-10 bg-navy-700/50 hover:bg-navy-600/50 text-mist hover:text-ice rounded-lg transition-all duration-200">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -20,13 +20,13 @@ SGE - Entrada #{{ object.id }}
       
       <div class="flex items-center space-x-3">
         <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl shadow-lg">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-ice" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
           </svg>
         </div>
         <div>
-          <h1 class="text-3xl font-bold text-white">Entrada #{{ object.id }}</h1>
-          <p class="text-gray-400">Detalhes da movimentação de entrada</p>
+          <h1 class="text-3xl font-bold text-ice">Entrada #{{ object.id }}</h1>
+          <p class="text-mist">Detalhes da movimentação de entrada</p>
         </div>
       </div>
     </div>
@@ -47,27 +47,27 @@ SGE - Entrada #{{ object.id }}
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
   <!-- Main Information Card -->
   <div class="lg:col-span-2">
-    <div class="bg-navy-800/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-8 animate-slide-in-left">
+    <div class="bg-navy-800/80 backdrop-blur-xl border border-navy-700 rounded-xl p-8 animate-slide-in-left">
       <!-- Product Section -->
       <div class="mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
+        <h2 class="text-xl font-semibold text-ice mb-4 flex items-center">
           <svg class="w-6 h-6 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
           </svg>
           Informações do Produto
         </h2>
         
-        <div class="flex items-center space-x-4 p-6 bg-navy-700/30 rounded-xl border border-slate-600/50">
+        <div class="flex items-center space-x-4 p-6 bg-navy-700/30 rounded-xl border border-navy-600/50">
           <div class="flex-shrink-0 w-16 h-16 bg-emerald-500/20 rounded-xl flex items-center justify-center">
             <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
             </svg>
           </div>
           <div class="flex-1">
-            <h3 class="text-xl font-semibold text-white mb-1">{{ object.product }}</h3>
-            <p class="text-gray-400">{{ object.product.category|default:"Categoria não informada" }}</p>
+            <h3 class="text-xl font-semibold text-ice mb-1">{{ object.product }}</h3>
+            <p class="text-mist">{{ object.product.category|default:"Categoria não informada" }}</p>
             {% if object.product.description %}
-            <p class="text-gray-500 text-sm mt-2">{{ object.product.description }}</p>
+            <p class="text-mist-dim text-sm mt-2">{{ object.product.description }}</p>
             {% endif %}
           </div>
         </div>
@@ -75,22 +75,22 @@ SGE - Entrada #{{ object.id }}
 
       <!-- Supplier Section -->
       <div class="mb-8">
-        <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
+        <h2 class="text-xl font-semibold text-ice mb-4 flex items-center">
           <svg class="w-6 h-6 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
           </svg>
           Fornecedor
         </h2>
         
-        <div class="p-6 bg-navy-700/30 rounded-xl border border-slate-600/50">
+        <div class="p-6 bg-navy-700/30 rounded-xl border border-navy-600/50">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-white mb-1">{{ object.supplier }}</h3>
+              <h3 class="text-lg font-semibold text-ice mb-1">{{ object.supplier }}</h3>
               {% if object.supplier.email %}
-              <p class="text-gray-400 text-sm">{{ object.supplier.email }}</p>
+              <p class="text-mist text-sm">{{ object.supplier.email }}</p>
               {% endif %}
               {% if object.supplier.phone %}
-              <p class="text-gray-400 text-sm">{{ object.supplier.phone }}</p>
+              <p class="text-mist text-sm">{{ object.supplier.phone }}</p>
               {% endif %}
             </div>
             <div class="flex items-center justify-center w-12 h-12 bg-emerald-500/20 rounded-lg">
@@ -105,15 +105,15 @@ SGE - Entrada #{{ object.id }}
       <!-- Description Section -->
       {% if object.description %}
       <div>
-        <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
+        <h2 class="text-xl font-semibold text-ice mb-4 flex items-center">
           <svg class="w-6 h-6 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
           Observações
         </h2>
         
-        <div class="p-6 bg-navy-700/30 rounded-xl border border-slate-600/50">
-          <p class="text-gray-300 leading-relaxed">{{ object.description }}</p>
+        <div class="p-6 bg-navy-700/30 rounded-xl border border-navy-600/50">
+          <p class="text-mist leading-relaxed">{{ object.description }}</p>
         </div>
       </div>
       {% endif %}
@@ -124,8 +124,8 @@ SGE - Entrada #{{ object.id }}
   <div class="lg:col-span-1">
     <div class="space-y-6">
       <!-- Transaction Summary -->
-      <div class="bg-navy-800/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 animate-slide-in-right">
-        <h2 class="text-lg font-semibold text-white mb-6 flex items-center">
+      <div class="bg-navy-800/80 backdrop-blur-xl border border-navy-700 rounded-xl p-6 animate-slide-in-right">
+        <h2 class="text-lg font-semibold text-ice mb-6 flex items-center">
           <svg class="w-5 h-5 text-emerald-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 00-2 2z"></path>
           </svg>
@@ -142,8 +142,8 @@ SGE - Entrada #{{ object.id }}
                 </svg>
               </div>
               <div>
-                <p class="text-gray-400 text-sm">Quantidade</p>
-                <p class="text-white font-semibold">+{{ object.quantity }}</p>
+                <p class="text-mist text-sm">Quantidade</p>
+                <p class="text-ice font-semibold">+{{ object.quantity }}</p>
               </div>
             </div>
           </div>
@@ -157,9 +157,9 @@ SGE - Entrada #{{ object.id }}
                 </svg>
               </div>
               <div>
-                <p class="text-gray-400 text-sm">Data da Entrada</p>
-                <p class="text-white font-semibold">{{ object.created_at|date:"d/m/Y" }}</p>
-                <p class="text-gray-400 text-xs">{{ object.created_at|time:"H:i" }}</p>
+                <p class="text-mist text-sm">Data da Entrada</p>
+                <p class="text-ice font-semibold">{{ object.created_at|date:"d/m/Y" }}</p>
+                <p class="text-mist text-xs">{{ object.created_at|time:"H:i" }}</p>
               </div>
             </div>
           </div>
@@ -173,8 +173,8 @@ SGE - Entrada #{{ object.id }}
                 </svg>
               </div>
               <div>
-                <p class="text-gray-400 text-sm">ID da Transação</p>
-                <p class="text-white font-semibold">#{{ object.id }}</p>
+                <p class="text-mist text-sm">ID da Transação</p>
+                <p class="text-ice font-semibold">#{{ object.id }}</p>
               </div>
             </div>
           </div>
@@ -182,11 +182,11 @@ SGE - Entrada #{{ object.id }}
       </div>
 
       <!-- Action Buttons -->
-      <div class="bg-navy-800/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6">
-        <h3 class="text-lg font-semibold text-white mb-4">Ações</h3>
+      <div class="bg-navy-800/80 backdrop-blur-xl border border-navy-700 rounded-xl p-6">
+        <h3 class="text-lg font-semibold text-ice mb-4">Ações</h3>
         <div class="space-y-3">
           <a href="{% url 'inflow_list' %}" 
-             class="w-full inline-flex items-center justify-center px-4 py-3 bg-navy-700/50 hover:bg-navy-600/50 text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-200">
+             class="w-full inline-flex items-center justify-center px-4 py-3 bg-navy-700/50 hover:bg-navy-600/50 text-mist hover:text-ice font-medium rounded-lg transition-all duration-200">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -195,7 +195,7 @@ SGE - Entrada #{{ object.id }}
           
           {% if perms.inflows.add_inflow %}
           <a href="{% url 'inflow_create' %}" 
-             class="w-full inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105">
+             class="w-full inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-ice font-medium rounded-lg transition-all duration-200 transform hover:scale-105">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>

@@ -5,22 +5,16 @@ Excluir {{ object.name }} - SGE
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 p-6">
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-40 -left-40 w-80 h-80 bg-red-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-    <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-orange-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-  </div>
-
-  <div class="relative z-10 max-w-2xl mx-auto">
+  <div class="max-w-2xl mx-auto">
     <div class="bg-navy-800/80 backdrop-blur-xl border border-red-700/50 rounded-2xl shadow-2xl p-6 mb-8">
       <div class="flex items-center space-x-4">
         <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-ice" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
           </svg>
         </div>
         <div>
-          <h1 class="text-3xl font-bold text-white">Excluir Fornecedor</h1>
+          <h1 class="text-3xl font-bold text-ice">Excluir Fornecedor</h1>
           <p class="text-red-400">Ação irreversível - proceda com cuidado</p>
         </div>
       </div>
@@ -33,34 +27,34 @@ Excluir {{ object.name }} - SGE
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
           </svg>
         </div>
-        <h2 class="text-2xl font-bold text-white mb-2">Confirmar Exclusão</h2>
-        <p class="text-gray-300">Esta ação não pode ser desfeita</p>
+        <h2 class="text-2xl font-bold text-ice mb-2">Confirmar Exclusão</h2>
+        <p class="text-mist">Esta ação não pode ser desfeita</p>
       </div>
 
-      <div class="bg-navy-800/50 rounded-xl p-6 mb-8 border border-slate-700/50">
+      <div class="bg-navy-800/50 rounded-xl p-6 mb-8 border border-navy-700">
         <div class="flex items-center space-x-4 mb-4">
           <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex-shrink-0">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-ice" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
             </svg>
           </div>
           <div class="flex-1">
-            <h3 class="text-xl font-bold text-white">{{ object.name }}</h3>
+            <h3 class="text-xl font-bold text-ice">{{ object.name }}</h3>
             <p class="text-orange-400 font-medium">Fornecedor #{{ object.id }}</p>
           </div>
         </div>
         
         {% if object.description %}
         <div class="space-y-2">
-          <label class="block text-sm font-medium text-gray-400">Descrição</label>
-          <p class="text-gray-300 bg-navy-700/30 rounded-lg p-3 border border-slate-600/30">{{ object.description }}</p>
+          <label class="block text-sm font-medium text-mist">Descrição</label>
+          <p class="text-mist bg-navy-700/30 rounded-lg p-3 border border-navy-600/30">{{ object.description }}</p>
         </div>
         {% endif %}
       </div>
 
       <div class="text-center mb-8">
-        <p class="text-gray-300 text-lg mb-2">Tem certeza de que deseja excluir o fornecedor</p>
-        <p class="text-2xl font-bold text-white">"{{ object.name }}"?</p>
+        <p class="text-mist text-lg mb-2">Tem certeza de que deseja excluir o fornecedor</p>
+        <p class="text-2xl font-bold text-ice">"{{ object.name }}"?</p>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-4">
@@ -68,7 +62,7 @@ Excluir {{ object.name }} - SGE
           {% csrf_token %}
           <button 
             type="submit" 
-            class="w-full inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-navy-800 shadow-lg hover:shadow-xl border-2 border-red-500/30">
+            class="w-full inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-ice font-bold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-navy-800 shadow-lg hover:shadow-xl border-2 border-red-500/30">
             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
             </svg>
@@ -77,7 +71,7 @@ Excluir {{ object.name }} - SGE
         </form>
         
         <a href="{% url 'supplier_detail' object.id %}" 
-           class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-navy-600/50 hover:bg-navy-600/70 text-white font-bold rounded-lg transition-all duration-200 border-2 border-slate-500/30">
+           class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-navy-600/50 hover:bg-navy-600/70 text-ice font-bold rounded-lg transition-all duration-200 border-2 border-navy-600">
           <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
@@ -88,7 +82,7 @@ Excluir {{ object.name }} - SGE
 
     <div class="flex justify-between items-center">
       <a href="{% url 'supplier_list' %}" 
-         class="inline-flex items-center px-4 py-2 bg-navy-600/50 hover:bg-navy-600/70 text-white font-semibold rounded-lg transition-all duration-200 border border-slate-500/30">
+         class="inline-flex items-center px-4 py-2 bg-navy-600/50 hover:bg-navy-600/70 text-ice font-semibold rounded-lg transition-all duration-200 border border-navy-600">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
@@ -96,16 +90,5 @@ Excluir {{ object.name }} - SGE
       </a>
     </div>
 
-  </div>
-</div>
-
-<style>
-  @keyframes pulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.1; }
-  }
-  .animate-pulse {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-</style>
+    </div>
 {% endblock %}

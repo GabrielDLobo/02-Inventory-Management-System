@@ -31,8 +31,12 @@ module.exports = {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
+        // `control` intentionally matches Tailwind's own `lg` (8px): the
+        // pre-existing markup uses `rounded-lg` on every button/input/badge,
+        // so aliasing instead of introducing a second near-identical value
+        // keeps every control at the same radius without a repo-wide rename.
         card: '16px',
-        control: '10px',
+        control: '8px',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',

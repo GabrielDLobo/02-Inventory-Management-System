@@ -9,21 +9,21 @@
   <!-- Page Header -->
   <div class="flex items-center justify-between mb-8">
     <div>
-      <h1 class="text-3xl font-bold text-white mb-2 animate-fade-in">Cadastrar Novo Produto</h1>
-      <p class="text-gray-400">Adicione um novo produto ao seu estoque</p>
+      <h1 class="text-3xl font-bold text-ice mb-2 animate-fade-in">Cadastrar Novo Produto</h1>
+      <p class="text-mist">Adicione um novo produto ao seu estoque</p>
     </div>
     <div class="w-16 h-16 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center">
-      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-8 h-8 text-ice" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
       </svg>
     </div>
   </div>
 
   <!-- Form Container -->
-  <div class="bg-navy-800/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl animate-slide-in-left">
+  <div class="bg-navy-800/60 backdrop-blur-xl border border-navy-700 rounded-2xl overflow-hidden shadow-2xl animate-slide-in-left">
     <!-- Form Header -->
-    <div class="bg-gradient-to-r from-navy-800 to-navy-900 px-8 py-6 border-b border-slate-700/50">
-      <h2 class="text-xl font-semibold text-white flex items-center">
+    <div class="bg-gradient-to-r from-navy-800 to-navy-900 px-8 py-6 border-b border-navy-700">
+      <h2 class="text-xl font-semibold text-ice flex items-center">
         <svg class="w-6 h-6 mr-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
         </svg>
@@ -43,12 +43,12 @@
           <div class="space-y-6">
             <!-- Title Field -->
             <div>
-              <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Título do Produto *
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-mist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                   </svg>
                 </div>
@@ -56,7 +56,7 @@
                        id="{{ form.title.id_for_label }}" 
                        name="{{ form.title.name }}" 
                        value="{{ form.title.value|default:'' }}"
-                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
+                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice placeholder-mist-dim focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                        placeholder="Nome do produto"
                        required>
               </div>
@@ -72,18 +72,18 @@
 
             <!-- Category Field -->
             <div>
-              <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Categoria *
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-mist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                   </svg>
                 </div>
                 <select id="{{ form.category.id_for_label }}" 
                         name="{{ form.category.name }}"
-                        class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
+                        class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                         required>
                   <option value="">Selecione uma categoria</option>
                   {% for choice in form.category.field.queryset %}
@@ -103,18 +103,18 @@
 
             <!-- Brand Field -->
             <div>
-              <label for="{{ form.brand.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.brand.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Marca *
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-mist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                   </svg>
                 </div>
                 <select id="{{ form.brand.id_for_label }}" 
                         name="{{ form.brand.name }}"
-                        class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
+                        class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                         required>
                   <option value="">Selecione uma marca</option>
                   {% for choice in form.brand.field.queryset %}
@@ -134,12 +134,12 @@
 
             <!-- Serie Number Field -->
             <div>
-              <label for="{{ form.serie_number.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.serie_number.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Número de Série *
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-mist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
                   </svg>
                 </div>
@@ -147,7 +147,7 @@
                        id="{{ form.serie_number.id_for_label }}" 
                        name="{{ form.serie_number.name }}" 
                        value="{{ form.serie_number.value|default:'' }}"
-                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70 font-mono"
+                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice placeholder-mist-dim focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70 font-mono"
                        placeholder="Número de série único"
                        required>
               </div>
@@ -166,7 +166,7 @@
           <div class="space-y-6">
             <!-- Cost Price Field -->
             <div>
-              <label for="{{ form.cost_price.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.cost_price.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Preço de Custo *
               </label>
               <div class="relative">
@@ -179,7 +179,7 @@
                        value="{{ form.cost_price.value|default:'' }}"
                        step="0.01"
                        min="0"
-                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
+                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice placeholder-mist-dim focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                        placeholder="0.00"
                        required>
               </div>
@@ -195,7 +195,7 @@
 
             <!-- Selling Price Field -->
             <div>
-              <label for="{{ form.selling_price.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.selling_price.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Preço de Venda *
               </label>
               <div class="relative">
@@ -208,7 +208,7 @@
                        value="{{ form.selling_price.value|default:'' }}"
                        step="0.01"
                        min="0"
-                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
+                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice placeholder-mist-dim focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                        placeholder="0.00"
                        required>
               </div>
@@ -224,12 +224,12 @@
 
             <!-- Quantity Field -->
             <div>
-              <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+              <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
                 Quantidade Inicial *
               </label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-mist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                   </svg>
                 </div>
@@ -238,7 +238,7 @@
                        name="{{ form.quantity.name }}" 
                        value="{{ form.quantity.value|default:'' }}"
                        min="0"
-                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
+                       class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice placeholder-mist-dim focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70"
                        placeholder="Quantidade inicial"
                        required>
               </div>
@@ -257,18 +257,18 @@
         <!-- Description Field (Full Width) -->
         {% if form.description %}
         <div>
-          <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
+          <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-mist mb-2">
             Descrição
           </label>
           <div class="relative">
             <div class="absolute top-3 left-3 pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-mist" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
               </svg>
             </div>
             <textarea id="{{ form.description.id_for_label }}" 
                       name="{{ form.description.name }}"
-                      class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70 min-h-24 resize-y"
+                      class="w-full pl-10 pr-4 py-3 bg-navy-700/50 border border-navy-600 rounded-lg text-ice placeholder-mist-dim focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 hover:bg-navy-700/70 min-h-24 resize-y"
                       placeholder="Descrição do produto (opcional)">{{ form.description.value|default:'' }}</textarea>
           </div>
           {% if form.description.errors %}
@@ -283,9 +283,9 @@
         {% endif %}
 
         <!-- Form Actions -->
-        <div class="flex items-center justify-between pt-6 border-t border-slate-700/50">
+        <div class="flex items-center justify-between pt-6 border-t border-navy-700">
           <a href="{% url 'product_list' %}" 
-             class="inline-flex items-center px-6 py-3 bg-navy-700/50 hover:bg-navy-700/70 text-gray-300 hover:text-white font-medium rounded-lg transition-all duration-200 border border-slate-600 hover:border-gray-500">
+             class="inline-flex items-center px-6 py-3 bg-navy-700/50 hover:bg-navy-700/70 text-mist hover:text-ice font-medium rounded-lg transition-all duration-200 border border-navy-600 hover:border-sky-500/50">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -293,7 +293,7 @@
           </a>
 
           <button type="submit" 
-                  class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                  class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-ice font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
