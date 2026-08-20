@@ -10,4 +10,5 @@ class Notify:
         requests.post(
             url=f'{self.__base_url}''/api/V1/webhooks/order/',
             json=data,
+            timeout=10,
         )

@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,10 +27,14 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY',
-    'django-insecure-p%a7njmpp-*sj*-g$k!-(olb3%0(y&bk=y34g!!)e993whp6w*',
-)
+try:
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+except KeyError:
+    raise ImproperlyConfigured(
+        'A variável de ambiente DJANGO_SECRET_KEY não está definida. '
+        'Gere uma chave com: python -c "from django.core.management.utils '
+        'import get_random_secret_key; print(get_random_secret_key())"'
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
@@ -59,8 +64,11 @@ INSTALLED_APPS = [
     'outflows',
     'products',
     'suppliers',
-    
+
     'widget_tweaks',
+
+    # Deve vir por último (ver docs do django-axes sobre ordem de apps/middleware).
+    'axes',
 ]
 
 LOGIN_URL = 'login'
@@ -78,6 +86,15 @@ MIDDLEWARE = [
     'app.middleware.DemoModeMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Precisa ser o último middleware da lista (exigência do django-axes).
+    'axes.middleware.AxesMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Precisa vir antes do ModelBackend para o axes poder bloquear a
+    # tentativa antes da senha ser validada.
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -185,7 +202,10 @@ SIMPLE_JWT = {
 }
 
 OPENAI_MODEL = 'gpt-3.5-turbo'
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+# Usada apenas pelo comando de management `sge_agent_invoke` (ai/agent.py),
+# não em toda requisição — por isso não é exigida no import de settings.py
+# como a DJANGO_SECRET_KEY. Se ausente, o comando falha ao chamar a API.
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 # Modo de demonstração pública (ver Etapa 3)
 DEMO_MODE = os.environ.get('DEMO_MODE', 'False') == 'True'
@@ -197,3 +217,28 @@ IS_VERCEL = os.environ.get('VERCEL') == '1'
 SESSION_COOKIE_SECURE = IS_VERCEL
 CSRF_COOKIE_SECURE = IS_VERCEL
 SECURE_SSL_REDIRECT = IS_VERCEL
+
+if IS_VERCEL:
+    SECURE_HSTS_SECONDS = 31536000  # 1 ano
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_REFERRER_POLICY = 'same-origin'
+
+# django-axes: throttling de tentativas de login por IP.
+#
+# Por que django-axes e não uma solução caseira: é a lib mais madura do
+# ecossistema Django para isso e se integra via AUTHENTICATION_BACKENDS,
+# então cobre tanto o login de formulário (LoginView) quanto o endpoint
+# JWT (TokenObtainPairView), que também passam por authenticate().
+#
+# Por que funciona na Vercel (serverless, sem estado local entre invocações):
+# o handler é forçado para AxesDatabaseHandler, que grava as tentativas na
+# tabela axes_accessattempt do Postgres (Neon), não em cache em memória do
+# processo. Como a Vercel reinicia o processo a cada cold start, um handler
+# baseado em cache local (LocMemCache) perderia o estado; o banco não.
+AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
+AXES_LOCKOUT_PARAMETERS = ['ip_address']  # conta e bloqueia por IP, não por usuário
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(minutes=30)
+AXES_RESET_ON_SUCCESS = True
