@@ -3,5 +3,6 @@ flake8==7.0.0
 mkdocs==1.6.1
 mkdocs-material==9.6.20
 pip-audit==2.10.1
+playwright==1.62.0
 pymdown-extensions==10.21.3
 taskipy==1.14.1
