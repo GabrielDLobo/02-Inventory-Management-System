@@ -6,7 +6,7 @@ import { Scene3DActiveProvider } from './scene3DActiveContext'
 
 const Scene3DCanvas = lazy(() => import('./Scene3DCanvas'))
 
-interface Scene3DProps {
+interface Scene3DProps<TProps extends object> {
   /**
    * Importador dinâmico da cena (ex.: `() => import('@/components/three/scenes/AmbientCube')`).
    * Precisa ser uma referência estável (definida fora do componente que
@@ -16,7 +16,9 @@ interface Scene3DProps {
    * `@react-three/fiber` e `@react-three/drei` fiquem fora do chunk
    * principal: nenhuma tela importa essas libs de forma estática.
    */
-  loadScene: () => Promise<{ default: ComponentType }>
+  loadScene: () => Promise<{ default: ComponentType<TProps> }>
+  /** Props repassadas pra cena (ex.: cor de destaque por tela). */
+  sceneProps?: TProps
   className?: string
   cameraPosition?: [number, number, number]
   fov?: number
@@ -40,14 +42,15 @@ function DefaultFallback() {
 // fallback estático, dpr limitado, frameloop sob demanda, pausa fora da
 // viewport (IntersectionObserver) e frame estático em prefers-reduced-motion
 // (a cena ainda aparece, só não anima: ver useScene3DActive).
-export function Scene3D({
+export function Scene3D<TProps extends object = Record<string, never>>({
   loadScene,
+  sceneProps,
   className,
   cameraPosition = [0, 0, 6],
   fov = 50,
   dpr = [1, 1.5],
   fallback,
-}: Scene3DProps) {
+}: Scene3DProps<TProps>) {
   const { ref, inView, hasBeenVisible } = useInView()
   const reducedMotion = usePrefersReducedMotion()
   const active = inView && !reducedMotion
@@ -63,7 +66,7 @@ export function Scene3D({
               {/* oxlint-disable-next-line react/static-components -- SceneContent vem de
                   getLazyScene, que cacheia por referência de loadScene (ver lazyScene.ts):
                   não é recriado a cada render. */}
-              <SceneContent />
+              <SceneContent {...((sceneProps ?? {}) as TProps)} />
             </Scene3DCanvas>
           </Scene3DActiveProvider>
         </Suspense>

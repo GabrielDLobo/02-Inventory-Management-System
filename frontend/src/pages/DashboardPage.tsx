@@ -3,7 +3,7 @@ import { StatKPI } from '@/components/ui/StatKPI'
 import { Card, CardBody, CardHeader } from '@/components/ui/Card'
 import { LoadingState } from '@/components/ui/LoadingState'
 import { ErrorState } from '@/components/ui/ErrorState'
-import { Scene3D } from '@/components/three/Scene3D'
+import { ScreenHeader } from '@/components/ui/ScreenHeader'
 import { formatCompactCurrency, formatNumber } from '@/lib/format'
 import { LOW_STOCK_THRESHOLD } from '@/lib/stock'
 import { useDashboardData } from './dashboard/useDashboardData'
@@ -26,15 +26,11 @@ export function DashboardPage() {
 
   return (
     <>
-      <div className="mb-[22px] overflow-hidden rounded-2xl border border-dark-line bg-dark">
-        <div className="grid grid-cols-[1fr_140px] items-center gap-4 p-6">
-          <div>
-            <h2 className="text-xl font-semibold text-white">Visão geral do estoque</h2>
-            <p className="mt-1 text-sm text-[#8CA0AD]">Movimentações e níveis de estoque hoje, {TODAY_LABEL}.</p>
-          </div>
-          <Scene3D loadScene={loadAmbientCube} className="h-[100px] w-full" cameraPosition={[0, 0, 4.5]} />
-        </div>
-      </div>
+      <ScreenHeader
+        title="Visão geral do estoque"
+        description={`Movimentações e níveis de estoque hoje, ${TODAY_LABEL}.`}
+        loadScene={loadAmbientCube}
+      />
 
       {state.status === 'loading' && <LoadingState label="Carregando dados do estoque..." />}
 

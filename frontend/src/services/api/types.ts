@@ -53,6 +53,12 @@ export interface Inflow {
   updated_at: string
 }
 
+export interface AIResult {
+  id: number
+  created_at: string
+  result: string | null
+}
+
 export interface Outflow {
   id: number
   product: number
@@ -74,7 +80,9 @@ export type InflowInput = Omit<Inflow, 'id' | 'created_at' | 'updated_at'>
 export type OutflowInput = Omit<Outflow, 'id' | 'created_at' | 'updated_at'>
 
 // Erros de validação do DRF: { campo: ["mensagem", ...] }. `non_field_errors`
-// e `detail` aparecem em erros gerais (permissão, autenticação, PROTECT).
-export type ApiValidationError = Record<string, string[] | undefined> & {
+// e `detail` aparecem em erros gerais (permissão, autenticação, PROTECT) —
+// `detail` sempre como string simples, nunca lista.
+export interface ApiValidationError {
   detail?: string
+  [field: string]: string[] | string | undefined
 }
