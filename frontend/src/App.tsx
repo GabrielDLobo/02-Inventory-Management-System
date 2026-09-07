@@ -4,8 +4,14 @@ import { ProtectedRoute } from '@/app/ProtectedRoute'
 import { AppShell } from '@/app/AppShell'
 import { LoginPage } from '@/pages/LoginPage'
 import { DashboardPage } from '@/pages/DashboardPage'
-import { ComingSoonPage } from '@/pages/ComingSoonPage'
-import { PAGE_TITLES } from '@/app/navGroups'
+import { ProductsPage } from '@/pages/ProductsPage'
+import { CategoriesPage } from '@/pages/CategoriesPage'
+import { BrandsPage } from '@/pages/BrandsPage'
+import { SuppliersPage } from '@/pages/SuppliersPage'
+import { InflowsPage } from '@/pages/InflowsPage'
+import { OutflowsPage } from '@/pages/OutflowsPage'
+import { AssistantPage } from '@/pages/AssistantPage'
+import { ReportsPage } from '@/pages/ReportsPage'
 
 function App() {
   return (
@@ -21,11 +27,14 @@ function App() {
             }
           >
             <Route path="/" element={<DashboardPage />} />
-            {Object.entries(PAGE_TITLES)
-              .filter(([href]) => href !== '/')
-              .map(([href, title]) => (
-                <Route key={href} path={href} element={<ComingSoonPage title={title} />} />
-              ))}
+            <Route path="/produtos" element={<ProductsPage />} />
+            <Route path="/categorias" element={<CategoriesPage />} />
+            <Route path="/marcas" element={<BrandsPage />} />
+            <Route path="/fornecedores" element={<SuppliersPage />} />
+            <Route path="/entradas" element={<InflowsPage />} />
+            <Route path="/saidas" element={<OutflowsPage />} />
+            <Route path="/assistente" element={<AssistantPage />} />
+            <Route path="/relatorios" element={<ReportsPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
