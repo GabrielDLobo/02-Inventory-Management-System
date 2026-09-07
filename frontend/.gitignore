@@ -12,9 +12,10 @@ dist
 dist-ssr
 *.local
 
-# O .gitignore da raiz ignora .env* (segredos do Django); este é só um
-# template sem segredos e precisa ser versionado.
+# O .gitignore da raiz ignora .env* (segredos do Django); estes não têm
+# segredo nenhum (só caminho da API) e precisam ser versionados.
 !.env.example
+!.env.production
 
 # Editor directories and files
 .vscode/*
