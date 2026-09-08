@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ArchiveBoxIcon, CubeIcon, PencilSquareIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { ScreenHeader } from '@/components/ui/ScreenHeader'
+import { PageBody } from '@/components/ui/PageBody'
 import { LoadingState } from '@/components/ui/LoadingState'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { EmptyState } from '@/components/ui/EmptyState'
@@ -17,10 +18,6 @@ import { getStockStatus } from '@/lib/stock'
 import type { Product, ProductInput } from '@/services/api/types'
 import { useProductsPageData } from './products/useProductsPageData'
 import { ProductForm } from './products/ProductForm'
-
-function loadAmbientCube() {
-  return import('@/components/three/scenes/AmbientCube')
-}
 
 type DialogState = { kind: 'create' } | { kind: 'edit'; product: Product } | { kind: 'delete'; product: Product } | null
 
@@ -67,121 +64,125 @@ export function ProductsPage() {
   return (
     <>
       <ScreenHeader
+        eyebrow="Estoque"
         title="Produtos"
         description="Cadastre e mantenha os produtos que passam pelo estoque."
-        loadScene={loadAmbientCube}
+        actions={
+          state.status === 'success' && (
+            <Button onClick={() => setDialog({ kind: 'create' })}>
+              <PlusIcon className="h-4 w-4" />
+              Novo produto
+            </Button>
+          )
+        }
       />
 
-      {state.status === 'loading' && <LoadingState />}
-      {state.status === 'error' && <ErrorState message={state.message} onRetry={reload} />}
+      <PageBody>
+        {state.status === 'loading' && <LoadingState />}
+        {state.status === 'error' && <ErrorState message={state.message} onRetry={reload} />}
 
-      {state.status === 'success' && (
-        <Card>
-          <CardHeader
-            title="Produtos cadastrados"
-            action={
-              <div className="flex items-center gap-2.5">
+        {state.status === 'success' && (
+          <Card>
+            <CardHeader
+              title="Produtos cadastrados"
+              action={
                 <input
                   type="search"
                   placeholder="Buscar por nome ou SKU..."
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  className="w-56 rounded-[11px] border border-line bg-surface px-3.5 py-2 text-[13.5px] text-ink outline-none focus:border-cyan focus:ring-[3px] focus:ring-cyan/15"
+                  className="w-full max-w-56 rounded-[11px] border border-line bg-surface px-3.5 py-2 text-[13.5px] text-ink outline-none focus:border-cyan focus:ring-[3px] focus:ring-cyan/15"
                 />
-                <Button onClick={() => setDialog({ kind: 'create' })}>
-                  <PlusIcon className="h-4 w-4" />
-                  Novo produto
-                </Button>
-              </div>
-            }
-          />
-
-          {state.data.products.length === 0 ? (
-            <EmptyState
-              illustration={
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-cyan/10 text-cyan-700">
-                  <CubeIcon className="h-7 w-7" />
-                </span>
               }
-              title="Nenhum produto cadastrado ainda"
-              description="Cadastre categorias e marcas primeiro, depois o primeiro produto."
-              action={<Button onClick={() => setDialog({ kind: 'create' })}>Novo produto</Button>}
             />
-          ) : filteredProducts.length === 0 ? (
-            <p className="p-[18px] text-sm text-muted">Nenhum produto encontrado para &ldquo;{search}&rdquo;.</p>
-          ) : (
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <Th>Produto</Th>
-                    <Th>Categoria</Th>
-                    <Th>Marca</Th>
-                    <Th>Preço de venda</Th>
-                    <Th>Estoque</Th>
-                    <Th>Status</Th>
-                    <Th>Ações</Th>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredProducts.map((product) => {
-                    const categoryName = state.data.categories.find((c) => c.id === product.category)?.name ?? '—'
-                    const brandName = state.data.brands.find((b) => b.id === product.brand)?.name ?? '—'
-                    return (
-                      <TableRow key={product.id}>
-                        <Td>
-                          <div className="flex items-center gap-2.5">
-                            <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-lg bg-cyan/10 text-cyan-700">
-                              <ArchiveBoxIcon className="h-4 w-4" />
-                            </span>
-                            <div className="min-w-0">
-                              <div className="truncate">{product.title}</div>
-                              {product.serie_number && (
-                                <div className="text-[11.5px] text-muted">SKU {product.serie_number}</div>
-                              )}
+
+            {state.data.products.length === 0 ? (
+              <EmptyState
+                illustration={
+                  <span className="grid h-14 w-14 place-items-center rounded-2xl bg-cyan/10 text-cyan-700">
+                    <CubeIcon className="h-7 w-7" />
+                  </span>
+                }
+                title="Nenhum produto cadastrado ainda"
+                description="Cadastre categorias e marcas primeiro, depois o primeiro produto."
+                action={<Button onClick={() => setDialog({ kind: 'create' })}>Novo produto</Button>}
+              />
+            ) : filteredProducts.length === 0 ? (
+              <p className="p-[18px] text-sm text-muted">Nenhum produto encontrado para &ldquo;{search}&rdquo;.</p>
+            ) : (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <Th>Produto</Th>
+                      <Th>Categoria</Th>
+                      <Th>Marca</Th>
+                      <Th>Preço de venda</Th>
+                      <Th>Estoque</Th>
+                      <Th>Status</Th>
+                      <Th>Ações</Th>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredProducts.map((product) => {
+                      const categoryName = state.data.categories.find((c) => c.id === product.category)?.name ?? '—'
+                      const brandName = state.data.brands.find((b) => b.id === product.brand)?.name ?? '—'
+                      return (
+                        <TableRow key={product.id}>
+                          <Td>
+                            <div className="flex items-center gap-2.5">
+                              <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-lg bg-cyan/10 text-cyan-700">
+                                <ArchiveBoxIcon className="h-4 w-4" />
+                              </span>
+                              <div className="min-w-0">
+                                <div className="truncate">{product.title}</div>
+                                {product.serie_number && (
+                                  <div className="text-[11.5px] text-muted">SKU {product.serie_number}</div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        </Td>
-                        <Td>{categoryName}</Td>
-                        <Td>{brandName}</Td>
-                        <Td mono>
-                          {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                            Number(product.selling_price),
-                          )}
-                        </Td>
-                        <Td mono>{formatNumber(product.quantity)}</Td>
-                        <Td>
-                          <StatusPill status={getStockStatus(product.quantity)} />
-                        </Td>
-                        <Td>
-                          <div className="flex gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() => setDialog({ kind: 'edit', product })}
-                              aria-label={`Editar ${product.title}`}
-                              className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink"
-                            >
-                              <PencilSquareIcon className="h-4 w-4" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setDialog({ kind: 'delete', product })}
-                              aria-label={`Excluir ${product.title}`}
-                              className="rounded-lg p-1.5 text-muted transition hover:bg-danger/10 hover:text-danger"
-                            >
-                              <TrashIcon className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </Td>
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </Card>
-      )}
+                          </Td>
+                          <Td>{categoryName}</Td>
+                          <Td>{brandName}</Td>
+                          <Td mono>
+                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                              Number(product.selling_price),
+                            )}
+                          </Td>
+                          <Td mono>{formatNumber(product.quantity)}</Td>
+                          <Td>
+                            <StatusPill status={getStockStatus(product.quantity)} />
+                          </Td>
+                          <Td>
+                            <div className="flex gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => setDialog({ kind: 'edit', product })}
+                                aria-label={`Editar ${product.title}`}
+                                className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink"
+                              >
+                                <PencilSquareIcon className="h-4 w-4" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setDialog({ kind: 'delete', product })}
+                                aria-label={`Excluir ${product.title}`}
+                                className="rounded-lg p-1.5 text-muted transition hover:bg-danger/10 hover:text-danger"
+                              >
+                                <TrashIcon className="h-4 w-4" />
+                              </button>
+                            </div>
+                          </Td>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </Card>
+        )}
+      </PageBody>
 
       {state.status === 'success' && dialog?.kind === 'create' && (
         <Modal title="Novo produto" onClose={() => setDialog(null)}>

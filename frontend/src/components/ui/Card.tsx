@@ -18,7 +18,7 @@ interface CardHeaderProps {
 
 export function CardHeader({ title, subtitle, action }: CardHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-line-2 px-[18px] py-4">
+    <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-line-2 px-[18px] py-4">
       <h3 className="text-[15px] font-semibold text-ink">{title}</h3>
       {action ?? (subtitle && <span className="text-xs text-muted">{subtitle}</span>)}
     </div>
