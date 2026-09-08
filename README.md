@@ -1,4 +1,24 @@
-# Inventory Management System (SGE) — Django
+<div align="center">
+  <img src="docs/assets/hero-login.png" alt="SGE — Sistema de Gestão de Estoque" width="100%" />
+
+  <h1>SGE — Sistema de Gestão de Estoque</h1>
+  <p><strong>Controle de estoque</strong> — produtos, categorias, fornecedores, entradas e saídas, dashboard com métricas e um assistente de IA.</p>
+
+  <p><a href="https://frontend-vert-seven-86.vercel.app/"><strong>🔗 Ver demo ao vivo</strong></a></p>
+  <p><sub>Demo: usuário <code>demo</code> · senha <code>demo1234</code></sub></p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Django-5-092E20?logo=django" />
+    <img src="https://img.shields.io/badge/DRF%20%2B%20JWT-red" />
+    <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" />
+    <img src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white" />
+    <img src="https://img.shields.io/badge/Three.js-000?logo=three.js" />
+    <img src="https://img.shields.io/badge/PostgreSQL%20(Neon)-336791?logo=postgresql&logoColor=white" />
+    <img src="https://img.shields.io/badge/OpenAI-412991?logo=openai" />
+    <img src="https://img.shields.io/badge/Vercel-000?logo=vercel" />
+  </p>
+</div>
 
 A Django-based **Inventory Management System** (SGE - *Sistema de Gestão de Estoque*) that allows you to manage products, suppliers, and stock movements (inflows/outflows), providing a dashboard with metrics and charts. It also includes an optional **AI insights** module to generate short daily inventory/sales recommendations based on system data.
 
@@ -185,6 +205,11 @@ A common setup is:
 ## License
 
 No license file is included by default. Add a license if you plan to distribute or use this project commercially.
+
+## Segurança & Qualidade
+
+- **[Relatório de QA](docs/QA_REPORT.md)** — cobertura de testes, verificações manuais e itens conhecidos.
+- **[Segurança da autenticação](docs/authentication-security.md)** — modelo de permissões do usuário `demo`, JWT, lockout por IP (django-axes) e `DEMO_MODE`.
 
 # Project Images
 
