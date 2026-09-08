@@ -14,3 +14,7 @@ test
 .vercel
 .env*
 node_modules
+
+staticfiles/
+AGENTS.md
+CLAUDE.md
