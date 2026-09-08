@@ -33,7 +33,7 @@ export function Layout({ groups, activeHref, username, onNavigate, onLogout, chi
         <div className="fixed inset-0 z-40 lg:hidden">
           <button
             type="button"
-            aria-label="Fechar menu"
+            aria-label="Fechar menu ao clicar fora"
             className="absolute inset-0 bg-dark/50"
             onClick={() => setIsMobileNavOpen(false)}
           />
