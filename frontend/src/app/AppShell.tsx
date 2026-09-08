@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Layout } from '@/components/ui/Layout'
-import { NAV_GROUPS, PAGE_TITLES } from './navGroups'
+import { NAV_GROUPS } from './navGroups'
 import { useAuth } from './authContext'
 
 export function AppShell() {
@@ -13,7 +13,6 @@ export function AppShell() {
       groups={NAV_GROUPS}
       activeHref={location.pathname}
       username={username ?? ''}
-      title={PAGE_TITLES[location.pathname] ?? 'SGE'}
       onNavigate={(href) => navigate(href)}
       onLogout={() => {
         logout()

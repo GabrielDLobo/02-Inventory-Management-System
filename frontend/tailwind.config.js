@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         // Claro (telas internas)
-        bg: '#F7F9FC',
+        bg: '#EEF2F8',
         surface: { DEFAULT: '#FFFFFF', 2: '#FBFCFE' },
         ink: '#0B1220',
         muted: '#5B6472',

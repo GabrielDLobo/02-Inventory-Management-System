@@ -1,39 +1,31 @@
-import type { ReactNode } from 'react'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon } from '@heroicons/react/24/outline'
 
 interface TopbarProps {
-  title: string
-  searchPlaceholder?: string
-  onSearch?: (value: string) => void
-  action?: ReactNode
+  onOpenNav: () => void
 }
 
-// Topbar com busca opcional e o badge de "Modo demonstração" fixo à direita
-// (design-system.md §5 e §7: a demo precisa se anunciar como tal).
-export function Topbar({ title, searchPlaceholder, onSearch, action }: TopbarProps) {
+// Abaixo de lg, a sidebar vira um drawer (Sidebar com onClose) e esta barra
+// é o único jeito de abri-la — por isso ela some no desktop (design v2: o
+// título/busca/badge de demo agora moram no PageHero de cada tela).
+export function Topbar({ onOpenNav }: TopbarProps) {
   return (
-    <div className="sticky top-0 z-10 flex items-center gap-[18px] border-b border-line bg-bg/85 px-[30px] py-3.5 backdrop-blur">
-      <h1 className="text-[19px] font-semibold text-ink">{title}</h1>
-
-      {onSearch && (
-        <label className="ml-2 flex max-w-[340px] flex-1 items-center gap-2 rounded-[11px] border border-line bg-surface px-3.5 py-2 text-muted">
-          <MagnifyingGlassIcon className="h-4 w-4 flex-none" />
-          <input
-            type="search"
-            placeholder={searchPlaceholder}
-            onChange={(event) => onSearch(event.target.value)}
-            className="w-full border-0 bg-transparent text-[13.5px] text-ink outline-none placeholder:text-muted"
-          />
-        </label>
-      )}
-
-      <div className="ml-auto flex items-center gap-3">
-        {action}
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan/25 bg-cyan/10 px-3 py-[7px] text-xs font-semibold text-cyan-700">
-          <i className="h-[7px] w-[7px] animate-pulse rounded-full bg-cyan-600 motion-reduce:animate-none" aria-hidden="true" />
-          Modo demonstração
+    <div className="sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-surface/90 px-4 py-3 backdrop-blur lg:hidden">
+      <button
+        type="button"
+        onClick={onOpenNav}
+        aria-label="Abrir menu"
+        className="rounded-lg p-1.5 text-ink transition hover:bg-surface-2"
+      >
+        <Bars3Icon className="h-6 w-6" />
+      </button>
+      <span className="flex items-center gap-2">
+        <span className="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-cyan to-violet">
+          <span className="font-display text-[10px] font-bold text-dark">SG</span>
         </span>
-      </div>
+        <span className="font-display text-sm font-bold text-ink">
+          S<span className="text-cyan-700">GE</span>
+        </span>
+      </span>
     </div>
   )
 }
