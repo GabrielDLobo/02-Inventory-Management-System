@@ -186,6 +186,20 @@ STORAGES = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# DRF throttling (abaixo) guarda os contadores no cache do Django, que por
+# padrão é LocMemCache — em memória do processo. Isso não sobrevive entre
+# invocações na Vercel (serverless, sem estado local), exatamente o mesmo
+# motivo pelo qual o django-axes é forçado pro AxesDatabaseHandler em vez do
+# handler em cache (ver comentário mais abaixo). Sem isso, o throttle
+# "funciona" localmente (processo único e duradouro) mas não limita nada em
+# produção. Rodar `manage.py createcachetable` depois de configurar isso.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'django_cache',
+    }
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',

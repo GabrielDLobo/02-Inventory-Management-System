@@ -82,7 +82,7 @@ antes desse fix.
 |---|---|
 | Com `OPENAI_API_KEY`: resposta renderizada com segurança | ✅ Pass (por construção) — `AssistantPage.tsx` renderiza `state.data.result` como texto React puro (`{...}`), nunca `dangerouslySetInnerHTML`. Grep confirma: **zero** ocorrências de `dangerouslySetInnerHTML` ou `innerHTML =` em `frontend/src`. Não testei com uma chave real (nenhuma disponível no ambiente) |
 | Sem a chave: caminho 502 tratado | ✅ Pass — testado local e **em produção** (a Vercel não tem `OPENAI_API_KEY` configurada); `tests/test_ai_endpoint.py` cobre com mock |
-| 🔴 Exige autenticação e tem rate limit | 🔴→✅ **Corrigido.** Não havia limite nenhum — cada chamada aciona a API paga da OpenAI, então o próprio usuário demo podia gerar custo sem controle. `app/settings.py` ganhou `DEFAULT_THROTTLE_CLASSES` (anon/user globais) + scope `ai_invoke` em **10/hora**, aplicado via `ScopedRateThrottle` em `ai/views.py`. Auth já era exigida (`IsAuthenticated`) |
+| 🔴 Exige autenticação e tem rate limit | 🔴→✅ **Corrigido, em duas partes.** (1) Não havia limite nenhum — `DEFAULT_THROTTLE_CLASSES` (anon/user globais) + scope `ai_invoke` em **10/hora** via `ScopedRateThrottle`. (2) Testado **ao vivo** em produção (11 chamadas seguidas) e o throttle **não bloqueou nenhuma** — o cache padrão do Django (`LocMemCache`) é em memória do processo, e a Vercel é serverless: não sobrevive entre invocações, o mesmo motivo pelo qual `django-axes` já era forçado pro `AxesDatabaseHandler`. Troquei `CACHES` pra `DatabaseCache` (tabela `django_cache`, mesmo Neon) e rodei `createcachetable`. Retestei ao vivo: a 11ª chamada agora dá 429. Auth (`IsAuthenticated`) já funcionava desde o início — testado sem token → 401 antes e depois do fix |
 
 ### Relatórios
 | Item | Resultado |
@@ -187,7 +187,14 @@ Frontend: npx tsc -b                                → limpo
 - [x] Todos os 🔴 e 🟠 corrigidos e re-testados (3 críticos + 2 altos; ver seções 2-5).
 - [x] `QA_REPORT.md` atualizado (este arquivo).
 
-**Commits desta sessão** (branch `qa/hardening`):
+**Commits desta sessão** (branch `qa/hardening`, mesclada em `master`):
 `fix(qa)` — estoque negativo, 500 em delete protegido, throttle da IA · `fix(deps)` — openai
-(fase anterior) e djangorestframework (CVEs) · `test(e2e)` — smoke Playwright.
-Branch `fix/sge-same-origin` (separada, já commitada) resolveu o item de CORS/deploy.
+(fase anterior) e djangorestframework (CVEs) · `test(e2e)` — smoke Playwright · `fix(qa)` —
+cache do throttle em banco (não em `LocMemCache`, que não sobrevive na Vercel serverless).
+Branch `fix/sge-same-origin` (também mesclada) resolveu o item de CORS/deploy.
+
+**Confirmado ao vivo em produção** (`https://frontend-vert-seven-86.vercel.app` +
+`https://sge-demo-puce.vercel.app`) depois do merge e do redeploy dos dois projetos: login
+`demo`/`demo1234` → 200 same-origin; saída de 1009 un. num produto com 10 em estoque → 400
+bloqueado; `/api/v1/ai/invoke/` sem token → 401, e a 11ª chamada em sequência → 429 (throttle
+de fato persistindo entre invocações serverless, depois do fix do cache).
