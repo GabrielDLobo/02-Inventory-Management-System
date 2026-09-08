@@ -2,6 +2,7 @@ import logging
 
 from rest_framework import permissions, status
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 from ai.agent import SGEAgent
 from ai.models import AIResult
@@ -30,6 +31,8 @@ class AIInvokeAPIView(APIView):
     da tela."""
 
     permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'ai_invoke'
 
     def post(self, request):
         try:

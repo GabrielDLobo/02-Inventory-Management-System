@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from app import metrics
+from app.api_mixins import ProtectedDestroyMixin
 from brands.models import Brand
 from categories.models import Category
 from . import models, forms, serializers
@@ -76,6 +77,7 @@ class ProductCreateListAPIView(generics.ListCreateAPIView):
     serializer_class = serializers.ProductSerializer
 
 
-class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ProductRetrieveUpdateDestroyAPIView(ProtectedDestroyMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
+    protected_delete_message = 'Não é possível excluir: este produto tem entradas ou saídas registradas.'

@@ -194,6 +194,19 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.DjangoModelPermissions',
     ),
+    # Throttle global (contra abuso genérico da API) + um scope dedicado
+    # pro /api/v1/ai/invoke/: cada chamada aciona a API paga da OpenAI, e
+    # sem limite o próprio usuário demo pode gerar custo sem controle
+    # (achado no QA da Fase 3).
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '2000/day',
+        'ai_invoke': '10/hour',
+    },
 }
 
 SIMPLE_JWT = {

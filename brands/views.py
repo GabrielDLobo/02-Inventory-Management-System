@@ -2,6 +2,7 @@ from rest_framework import generics
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from app.api_mixins import ProtectedDestroyMixin
 from . import models, forms, serializers
 
 
@@ -56,6 +57,7 @@ class BrandCreateListAPIView(generics.ListCreateAPIView):
     serializer_class = serializers.BrandSerializer
 
 
-class BrandRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class BrandRetrieveUpdateDestroyAPIView(ProtectedDestroyMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Brand.objects.all()
     serializer_class = serializers.BrandSerializer
+    protected_delete_message = 'Não é possível excluir: há produtos cadastrados com esta marca.'
