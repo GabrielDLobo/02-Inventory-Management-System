@@ -1,7 +1,8 @@
-import { useState, type ComponentType, type SVGProps } from 'react'
+import { useMemo, useState, type ComponentType, type SVGProps } from 'react'
 import toast from 'react-hot-toast'
 import { PencilSquareIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { ScreenHeader } from '@/components/ui/ScreenHeader'
+import { ScreenHeader, type PageHeroAccent } from '@/components/ui/ScreenHeader'
+import { PageBody } from '@/components/ui/PageBody'
 import { LoadingState } from '@/components/ui/LoadingState'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { EmptyState } from '@/components/ui/EmptyState'
@@ -36,9 +37,9 @@ interface SimpleResourceScreenProps {
   /** Concordância de gênero do labelSingular ("Categoria"/"Marca" = f, "Fornecedor" = m). */
   gender: 'm' | 'f'
   color: string
+  accent: PageHeroAccent
   headerIcon: ComponentType<SVGProps<SVGSVGElement>>
   service: NamedResourceService
-  loadScene: () => Promise<{ default: ComponentType<{ color?: string }> }>
 }
 
 type DialogState = { kind: 'create' } | { kind: 'edit'; resource: NamedResource } | { kind: 'delete'; resource: NamedResource } | null
@@ -50,11 +51,12 @@ export function SimpleResourceScreen({
   labelPlural,
   gender,
   color,
+  accent,
   headerIcon: HeaderIcon,
   service,
-  loadScene,
 }: SimpleResourceScreenProps) {
   const { reload, ...state } = useResourceList(service.list)
+  const [search, setSearch] = useState('')
   const [dialog, setDialog] = useState<DialogState>(null)
 
   const label = labelSingular.toLowerCase()
@@ -63,6 +65,13 @@ export function SimpleResourceScreen({
   const createdLabel = `${labelSingular} ${gender === 'f' ? 'cadastrada' : 'cadastrado'}.`
   const updatedLabel = `${labelSingular} ${gender === 'f' ? 'atualizada' : 'atualizado'}.`
   const deletedLabel = `${labelSingular} ${gender === 'f' ? 'excluída' : 'excluído'}.`
+
+  const filteredData = useMemo(() => {
+    if (state.status !== 'success') return []
+    const term = search.trim().toLowerCase()
+    if (!term) return state.data
+    return state.data.filter((resource) => resource.name.toLowerCase().includes(term))
+  }, [state, search])
 
   async function handleCreate(values: SimpleResourceFormValues) {
     await service.create(values)
@@ -91,87 +100,112 @@ export function SimpleResourceScreen({
 
   return (
     <>
-      <ScreenHeader title={title} description={description} loadScene={loadScene} sceneProps={{ color }} />
-
-      <Card>
-        <CardHeader
-          title={labelPlural}
-          action={
+      <ScreenHeader
+        eyebrow="Estoque"
+        title={title}
+        description={description}
+        accent={accent}
+        actions={
+          state.status === 'success' && (
             <Button onClick={() => setDialog({ kind: 'create' })}>
               <PlusIcon className="h-4 w-4" />
               {newLabel}
             </Button>
-          }
-        />
+          )
+        }
+      />
 
-        {state.status === 'loading' && <LoadingState />}
-        {state.status === 'error' && <ErrorState message={state.message} onRetry={reload} />}
-
-        {state.status === 'success' && state.data.length === 0 && (
-          <EmptyState
-            illustration={
-              <span
-                className="grid h-14 w-14 place-items-center rounded-2xl"
-                style={{ backgroundColor: `${color}1A`, color }}
-              >
-                <HeaderIcon className="h-7 w-7" />
-              </span>
+      <PageBody>
+        <Card>
+          <CardHeader
+            title={labelPlural}
+            action={
+              state.status === 'success' &&
+              state.data.length > 0 && (
+                <input
+                  type="search"
+                  placeholder={`Buscar ${label}...`}
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  className="w-full max-w-56 rounded-[11px] border border-line bg-surface px-3.5 py-2 text-[13.5px] text-ink outline-none focus:border-cyan focus:ring-[3px] focus:ring-cyan/15"
+                />
+              )
             }
-            title={`Nenhum${gender === 'f' ? 'a' : ''} ${label} cadastrad${gender === 'f' ? 'a' : 'o'} ainda`}
-            description={`Cadastre ${firstLabel} pra começar a usar em produtos.`}
-            action={<Button onClick={() => setDialog({ kind: 'create' })}>{newLabel}</Button>}
           />
-        )}
 
-        {state.status === 'success' && state.data.length > 0 && (
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <Th>Nome</Th>
-                  <Th>Descrição</Th>
-                  <Th>Ações</Th>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {state.data.map((resource) => (
-                  <TableRow key={resource.id}>
-                    <Td>
-                      <div className="flex items-center gap-2.5">
-                        <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-lg bg-cyan/10 text-cyan-700">
-                          <HeaderIcon className="h-4 w-4" />
-                        </span>
-                        {resource.name}
-                      </div>
-                    </Td>
-                    <Td className="max-w-xs truncate text-muted">{resource.description ?? '—'}</Td>
-                    <Td>
-                      <div className="flex gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => setDialog({ kind: 'edit', resource })}
-                          aria-label={`Editar ${resource.name}`}
-                          className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink"
-                        >
-                          <PencilSquareIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setDialog({ kind: 'delete', resource })}
-                          aria-label={`Excluir ${resource.name}`}
-                          className="rounded-lg p-1.5 text-muted transition hover:bg-danger/10 hover:text-danger"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </Td>
+          {state.status === 'loading' && <LoadingState />}
+          {state.status === 'error' && <ErrorState message={state.message} onRetry={reload} />}
+
+          {state.status === 'success' && state.data.length === 0 && (
+            <EmptyState
+              illustration={
+                <span
+                  className="grid h-14 w-14 place-items-center rounded-2xl"
+                  style={{ backgroundColor: `${color}1A`, color }}
+                >
+                  <HeaderIcon className="h-7 w-7" />
+                </span>
+              }
+              title={`Nenhum${gender === 'f' ? 'a' : ''} ${label} cadastrad${gender === 'f' ? 'a' : 'o'} ainda`}
+              description={`Cadastre ${firstLabel} pra começar a usar em produtos.`}
+              action={<Button onClick={() => setDialog({ kind: 'create' })}>{newLabel}</Button>}
+            />
+          )}
+
+          {state.status === 'success' && state.data.length > 0 && filteredData.length === 0 && (
+            <p className="p-[18px] text-sm text-muted">Nenhum{gender === 'f' ? 'a' : ''} {label} encontrad{gender === 'f' ? 'a' : 'o'} para &ldquo;{search}&rdquo;.</p>
+          )}
+
+          {state.status === 'success' && filteredData.length > 0 && (
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <Th>Nome</Th>
+                    <Th>Descrição</Th>
+                    <Th>Ações</Th>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </Card>
+                </TableHead>
+                <TableBody>
+                  {filteredData.map((resource) => (
+                    <TableRow key={resource.id}>
+                      <Td>
+                        <div className="flex items-center gap-2.5">
+                          <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-lg bg-cyan/10 text-cyan-700">
+                            <HeaderIcon className="h-4 w-4" />
+                          </span>
+                          {resource.name}
+                        </div>
+                      </Td>
+                      <Td className="max-w-xs truncate text-muted">{resource.description ?? '—'}</Td>
+                      <Td>
+                        <div className="flex gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setDialog({ kind: 'edit', resource })}
+                            aria-label={`Editar ${resource.name}`}
+                            className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink"
+                          >
+                            <PencilSquareIcon className="h-4 w-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDialog({ kind: 'delete', resource })}
+                            aria-label={`Excluir ${resource.name}`}
+                            className="rounded-lg p-1.5 text-muted transition hover:bg-danger/10 hover:text-danger"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </Td>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Card>
+      </PageBody>
 
       {dialog?.kind === 'create' && (
         <Modal title={newLabel} onClose={() => setDialog(null)}>

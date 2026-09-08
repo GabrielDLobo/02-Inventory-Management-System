@@ -2,10 +2,6 @@ import { TagIcon } from '@heroicons/react/24/outline'
 import { brandsService } from '@/services/api/brands'
 import { SimpleResourceScreen } from './resources/SimpleResourceScreen'
 
-function loadAmbientCube() {
-  return import('@/components/three/scenes/AmbientCube')
-}
-
 export function BrandsPage() {
   return (
     <SimpleResourceScreen
@@ -15,9 +11,9 @@ export function BrandsPage() {
       labelPlural="Marcas"
       gender="f"
       color="#7C6FF0"
+      accent="violet"
       headerIcon={TagIcon}
       service={brandsService}
-      loadScene={loadAmbientCube}
     />
   )
 }
