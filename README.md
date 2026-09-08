@@ -20,13 +20,15 @@
   </p>
 </div>
 
-A Django-based **Inventory Management System** (SGE - *Sistema de Gestão de Estoque*) that allows you to manage products, suppliers, and stock movements (inflows/outflows), providing a dashboard with metrics and charts. It also includes an optional **AI insights** module to generate short daily inventory/sales recommendations based on system data.
+**SGE** (*Sistema de Gestão de Estoque*) is an inventory management system for products, categories, brands, suppliers and stock movements (inflows/outflows), with a metrics dashboard and an optional **OpenAI assistant** that generates short daily inventory/sales recommendations.
+
+The current stack is a **React 19 + TypeScript + Vite + Three.js** single-page app consuming a **Django REST Framework** API (JWT auth), with **PostgreSQL (Neon)** in production and deploy on **Vercel**. The legacy server-rendered Django Templates UI has been replaced by this SPA.
 
 ## 🚀 Live Demo
 
-A public demo instance runs on **Vercel** (Python serverless / WSGI), backed by a **Postgres** database on **Neon**:
+The public demo is the React frontend on **Vercel**; it talks to the Django REST API (also on Vercel) and a **PostgreSQL** database on **Neon**:
 
-**URL:** https://sge-demo-puce.vercel.app
+**URL:** https://frontend-vert-seven-86.vercel.app/
 
 **Login:**
 - Usuário: `demo`
@@ -39,7 +41,7 @@ The `demo` account is not staff/superuser — it only has view/add/change/delete
 All data (products, brands, categories, suppliers, inflows/outflows) is fictional. It can be reset back to the original seeded dataset at any time:
 
 ```bash
-curl -X POST -H "X-Reset-Token: <RESET_TOKEN>" https://sge-demo-puce.vercel.app/api/reset-demo/
+curl -X POST -H "X-Reset-Token: <RESET_TOKEN>" https://frontend-vert-seven-86.vercel.app/api/reset-demo/
 ```
 
 `RESET_TOKEN` is stored only as a Vercel environment variable and is not published here. Resetting invalidates active `demo` sessions (the password hash is reset), so a fresh login is required afterwards. Resets are currently manual/on-demand — there is no automated schedule configured yet; wiring one up (e.g. Vercel Cron or a GitHub Action hitting the endpoint) is a natural next step if fully unattended periodic resets are wanted.
@@ -56,7 +58,7 @@ Running Django on Vercel's Python serverless runtime introduces a few constraint
 
 - **No background jobs / scheduler**: the original crontab-based task (`fazer_coisas`) was removed; nothing runs on a fixed schedule, and there's no Celery/queue worker.
 - **SQLite is dev-only**: each serverless invocation is stateless and ephemeral, so production uses Postgres (Neon) via `DATABASE_URL`; `db.sqlite3` remains the default only for local development (no `DATABASE_URL` set).
-- **Static files are pre-collected and committed**: there is no custom build step to run `collectstatic` on Vercel's build, so `staticfiles/` is generated locally (`python manage.py collectstatic`) and committed to the repo; it's served in-process by **WhiteNoise**.
+- **No static build step**: Vercel's build only installs Python deps, so there's no `collectstatic` on deploy. The public UI is the React SPA, which has its own Vite build; the Django side only needs static assets for the DRF browsable API / `/admin/`. Run `python manage.py collectstatic` locally if you need those styled (`staticfiles/` is git-ignored).
 - **Cold starts**: the first request after a period of inactivity can take a few seconds longer.
 - **Real-time webhook notification disabled**: the synchronous call to the companion `03-Webhooks-Inventory-Management-System` project (previously fired on every outflow, pointed at `http://localhost:8001`) is disabled in `outflows/signals.py` for this deployment, since that service isn't reachable from Vercel's serverless functions.
 - **Migrations run manually**: Vercel's build only installs Python dependencies (`pip install -r requirements.txt`); `python manage.py migrate` must be run locally (or via a separate job/CI step) against the production database — it does not run automatically on deploy.
@@ -112,30 +114,45 @@ mkdocs gh-deploy --clean
 
 ## Tech Stack
 
-- Python / Django
-- Django Templates (HTML)
-- TailwindCSS (via CDN)
-- (Optional) OpenAI API
+**Frontend** (`frontend/`)
+- React 19 + TypeScript (strict)
+- Vite
+- Three.js via `@react-three/fiber` + `@react-three/drei` (ambient 3D on every screen, lazy-loaded and disabled under `prefers-reduced-motion`)
+- TailwindCSS (build step, design tokens from `docs/design-system.md`)
+- Axios API layer with JWT (per-user login)
+
+**Backend** (repository root)
+- Python / Django 5.2 + Django REST Framework
+- SimpleJWT for authentication
+- `django-axes` (per-IP lockout), `DemoModeMiddleware` for `DEMO_MODE`
+- `dj-database-url` + WhiteNoise
+- OpenAI API for the inventory assistant (`ai/` app)
+
+**Infra**
+- PostgreSQL on Neon (production); SQLite for local dev
+- Deploy on Vercel (frontend SPA + Django API as Python serverless)
 
 ## Project Structure (high-level)
 
-Common Django apps you may find in this repository:
-
-- `app/` — Django project configuration (settings/urls) and dashboard views
+- `frontend/` — React + TypeScript + Vite SPA (the current UI)
+- `app/` — Django project configuration (settings/urls) and dashboard aggregation views
+- `api/` — DRF routing that mounts the domain endpoints under `/api/v1/`
 - `products/`, `categories/`, `brands/`, `suppliers/` — master data
 - `inflows/`, `outflows/` — stock movements
-- `authentication/` — API/auth related endpoints (mounted under `/api/v1/`)
-- `ai/` — AI prompts + agent logic that produces inventory insights
+- `authentication/` — JWT token endpoints (`/api/v1/authentication/`)
+- `ai/` — prompts + agent logic for the OpenAI inventory assistant
 
-## Main Routes (typical)
+## API (consumed by the SPA)
 
-- `GET /login/` — Login
-- `POST /login/` — Login submit
-- `GET /logout/` — Logout
-- `GET /home/` — Dashboard
-- `/api/v1/` — API (authentication module)
+The frontend talks only to the REST API under `/api/v1/`:
 
-> Other routes depend on each module (`products`, `inflows`, `outflows`, etc.).
+- `POST /api/v1/authentication/token/` — obtain JWT (username + password)
+- `POST /api/v1/authentication/token/refresh/` — refresh JWT
+- `/api/v1/products/`, `/api/v1/categories/`, `/api/v1/brands/`, `/api/v1/suppliers/` — CRUD
+- `/api/v1/inflows/`, `/api/v1/outflows/` — stock movements
+- dashboard metrics + AI assistant endpoints under the same prefix
+
+> Read the real contract from the backend `views`/`serializers`/`urls` — formats are not assumed.
 
 ## Getting Started (development)
 
@@ -182,13 +199,34 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 5) Run the server
+### 5) Seed the demo data (optional, recommended)
+
+```bash
+python manage.py seed_demo
+```
+
+Creates the `demo` / `demo1234` user (no admin rights) and populates fictional products, movements and low-stock alerts.
+
+### 6) Run the API
 
 ```bash
 python manage.py runserver
 ```
 
-Open: http://127.0.0.1:8000/
+The API is served at http://127.0.0.1:8000/api/v1/ (and the DRF browsable API / `/admin/`).
+
+### 7) Run the frontend
+
+```bash
+cd frontend
+npm install
+cp .env.example .env.local   # keep VITE_API_BASE_URL=/api/v1; set API_PROXY_TARGET if the API isn't on :8000
+npm run dev
+```
+
+Open http://127.0.0.1:5173/ and log in with `demo` / `demo1234`. Vite proxies `/api` to the Django server, so no CORS setup is needed.
+
+Before considering a screen done: `npm run build`, `npm run lint` and `tsc -b` must be clean.
 
 ## How this project complements the Webhooks project
 
@@ -212,6 +250,8 @@ No license file is included by default. Add a license if you plan to distribute 
 - **[Segurança da autenticação](docs/authentication-security.md)** — modelo de permissões do usuário `demo`, JWT, lockout por IP (django-axes) e `DEMO_MODE`.
 
 # Project Images
+
+> These screenshots show the **legacy** server-rendered Django Templates UI, kept for reference. The current UI is the React SPA in `frontend/` (see the hero image and the [live demo](#-live-demo)).
 
 ## Login
 ![alt text](</public/Captura de tela 2025-09-03 041708.png>)
